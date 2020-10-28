@@ -1,7 +1,4 @@
-import { GameArea } from './core/model/GameArea';
+import { Game } from './core/model/Game';
 
-const grid: number[][] = GameArea.generateBaseGrid();
-
-for (const row of grid) {
-  console.log(row.join(' '));
-}
+const game: Game = new Game();
+console.log(game);

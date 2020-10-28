@@ -1,12 +1,17 @@
 import { GameStatus } from './enum/GameStatus';
-import { Player } from './Player';
+import { GameGridFactory } from './factory/GameGridFactory';
+import { GameCell } from './GameCell';
 
 export class Game {
 
-  private readonly id: string;
+  public readonly id: string;
+  public readonly grid: GameCell[][];
+  public readonly status: GameStatus;
 
-  private readonly participants: Player[];
-
-  private readonly status: GameStatus;
+  constructor() {
+    this.id = 'TODO: uuid v4';
+    this.grid = GameGridFactory.createGrid();
+    this.status = GameStatus.Waiting;
+  }
 
 }

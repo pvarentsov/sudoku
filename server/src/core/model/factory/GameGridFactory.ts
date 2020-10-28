@@ -1,10 +1,16 @@
-import { ArrayUtil } from '../util/ArrayUtil';
+import { ArrayUtil } from '../../util/ArrayUtil';
+import { GameCell } from '../GameCell';
 
-export class GameArea {
+export class GameGridFactory {
 
-  private readonly grid: number[][];
+  public static createGrid(): GameCell[][] {
+    const plainGrid: number[][] = GameGridFactory.generatePlainGrid();
+    const grid: GameCell[][] = plainGrid.map(row => row.map(value => new GameCell(value, value)));
 
-  public static generateBaseGrid(): number[][] {
+    return grid;
+  }
+
+  private static generatePlainGrid(): number[][] {
     const firstRow: number[] = ArrayUtil.generateSequence(1, 9, {shuffle: true});
     const grid: number[][] = [firstRow];
 

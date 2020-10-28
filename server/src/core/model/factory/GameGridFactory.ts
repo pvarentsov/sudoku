@@ -7,6 +7,8 @@ export class GameGridFactory {
     const plainGrid: number[][] = GameGridFactory.generatePlainGrid();
     const grid: GameCell[][] = plainGrid.map(row => row.map(value => new GameCell(value, value)));
 
+    GameGridFactory.clearGrid(grid);
+
     return grid;
   }
 
@@ -23,6 +25,24 @@ export class GameGridFactory {
     }
 
     return grid;
+  }
+
+  private static clearGrid(grid: GameCell[][]): void {
+    const clearedIndexes: number[] = ArrayUtil
+      .generateSequence(0, 81, {shuffle: true})
+      .slice(0, 60);
+
+    for (const index of clearedIndexes) {
+      let rowIndex: number = Math.trunc((index+1) / 9);
+      let columnIndex: number = ((index+1) % 9) - 1;
+
+      if ((index+1) % 9 === 0) {
+        rowIndex--;
+        columnIndex++;
+      }
+
+      grid[rowIndex][columnIndex].setValue(null);
+    }
   }
 
 }

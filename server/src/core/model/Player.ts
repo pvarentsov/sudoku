@@ -1,27 +1,29 @@
 export class Player {
 
-  private readonly id: string;
+  private readonly _id: string;
+  private readonly _nickname: string;
+  private _rating: number;
 
-  private readonly nickname: string;
-
-  private rating: number;
-
-  constructor(nickname: string, rating?: number) {
-    this.id = 'TODO: uuid v4';
-    this.nickname = nickname;
-    this.rating = rating || 0;
+  constructor(nickname: string) {
+    this._id       = 'TODO: uuid v4';
+    this._nickname = nickname;
+    this._rating   = 0;
   }
 
-  public getNickname(): string {
-    return this.nickname;
+  public get id(): string {
+    return this._id;
   }
 
-  public getRating(): number {
-    return this.rating;
+  public get nickname(): string {
+    return this._nickname;
+  }
+
+  public get rating(): number {
+    return this._rating;
   }
 
   public rate(): void {
-    this.rating += 1;
+    this._rating += 1;
   }
 
 }

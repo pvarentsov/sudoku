@@ -1,13 +1,19 @@
 import { ArrayUtil } from '../../util/ArrayUtil';
+import { Game } from '../Game';
 import { GameCell } from '../GameCell';
 
-export class GameGridFactory {
+export class GameFactory {
 
-  public static createGrid(): GameCell[][] {
-    const plainGrid: number[][] = GameGridFactory.generatePlainGrid();
+  public static createGame(): Game {
+    const grid: GameCell[][] = GameFactory.createGrid();
+    GameFactory.randomClearGrid(grid);
+
+    return new Game(grid);
+  }
+
+  private static createGrid(): GameCell[][] {
+    const plainGrid: number[][] = GameFactory.generatePlainGrid();
     const grid: GameCell[][] = plainGrid.map(row => row.map(value => new GameCell(value, value)));
-
-    GameGridFactory.clearGrid(grid);
 
     return grid;
   }
@@ -27,12 +33,12 @@ export class GameGridFactory {
     return grid;
   }
 
-  private static clearGrid(grid: GameCell[][]): void {
-    const clearedIndexes: number[] = ArrayUtil
+  private static randomClearGrid(grid: GameCell[][]): void {
+    const clearedPlainIndexes: number[] = ArrayUtil
       .generateSequence(0, 81, {shuffle: true})
-      .slice(0, 60);
+      .slice(0, 51);
 
-    for (const index of clearedIndexes) {
+    for (const index of clearedPlainIndexes) {
       let rowIndex: number = Math.trunc((index+1) / 9);
       let columnIndex: number = ((index+1) % 9) - 1;
 
@@ -41,7 +47,7 @@ export class GameGridFactory {
         columnIndex++;
       }
 
-      grid[rowIndex][columnIndex].setValue(null);
+      grid[rowIndex][columnIndex].clear();
     }
   }
 

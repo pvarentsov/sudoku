@@ -1,21 +1,48 @@
-import { Nullable, Optional } from '../type/CommonTypes';
+import { Nullable } from '../type/CommonTypes';
 import { Player } from './Player';
 
 export class GameCell {
 
-  public readonly rightValue: number;
-  public currentValue: Nullable<number>;
-  public setBy: Optional<Player>;
+  private readonly _rightValue: number;
+  private _enteredValue: Nullable<number>;
+  private _setBy: Nullable<Player>;
 
-  constructor(rightValue: number, currentValue: Nullable<number>, setBy?: Player) {
-    this.rightValue   = rightValue;
-    this.currentValue = currentValue;
-    this.setBy        = setBy ;
+  constructor(rightValue: number, enteredValue: Nullable<number>, setBy?: Player) {
+    this._rightValue   = rightValue;
+    this._enteredValue = enteredValue;
+    this._setBy        = setBy || null;
   }
 
-  public setValue(value: Nullable<number>, by?: Player): void {
-    this.currentValue = value;
-    this.setBy = by;
+  public get rightValue(): number {
+    return this._rightValue;
+  }
+
+  public get enteredValue(): Nullable<number> {
+    return this._enteredValue;
+  }
+
+  public get setBy(): Nullable<Player> {
+    return this._setBy;
+  }
+
+  public enter(value: Nullable<number>, by?: Player): boolean {
+    const isValueRight: boolean = value === this._rightValue;
+
+    if (isValueRight) {
+      this._enteredValue = value;
+      this._setBy = by || null;
+    }
+
+    return isValueRight;
+  }
+
+  public isSolved(): boolean {
+    return this._rightValue === this._enteredValue;
+  }
+
+  public clear(): void {
+    this._enteredValue = null;
+    this._setBy = null;
   }
 
 }

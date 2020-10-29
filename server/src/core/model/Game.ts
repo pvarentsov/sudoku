@@ -31,7 +31,7 @@ export class Game {
     return this._grid.map(row => row.map(cell => cell.rightValue));
   }
 
-  public get plainGrid(): number[][] {
+  public get plainEnteredGrid(): number[][] {
     return this._grid.map(row => row.map(cell => cell.enteredValue || 0));
   }
 

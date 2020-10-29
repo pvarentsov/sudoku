@@ -33,7 +33,7 @@ export class Game {
 
   public isSolved(): boolean {
     return this._grid
-      .flat<Cell>()
+      .flat<Cell[][]>()
       .every(cell => cell.isSolved());
   }
 

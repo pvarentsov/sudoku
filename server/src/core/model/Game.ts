@@ -27,6 +27,14 @@ export class Game {
     return this._status;
   }
 
+  public get plainRightGrid(): number[][] {
+    return this._grid.map(row => row.map(cell => cell.rightValue));
+  }
+
+  public get plainGrid(): number[][] {
+    return this._grid.map(row => row.map(cell => cell.enteredValue || 0));
+  }
+
   public enter(coordinate: Coordinate, value: number, player: Player): boolean {
     return this._grid[coordinate.rowIndex][coordinate.columnIndex].enter(value, player);
   }

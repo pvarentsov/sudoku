@@ -25,7 +25,7 @@ export class GameFactory {
     for (let row: number = 1; row <= 8; row++) {
       const prevRow: number[] = grid[row-1];
 
-      grid[row] = (row !== 4 && row !== 7)
+      grid[row] = (row !== 3 && row !== 6)
         ? [prevRow[3], prevRow[4], prevRow[5], prevRow[6], prevRow[7], prevRow[8], prevRow[0], prevRow[1], prevRow[2]]
         : [prevRow[4], prevRow[5], prevRow[6], prevRow[7], prevRow[8], prevRow[0], prevRow[1], prevRow[2], prevRow[3]];
     }
@@ -34,11 +34,12 @@ export class GameFactory {
   }
 
   private static randomClearGrid(grid: Cell[][]): void {
-    const clearedPlainIndexes: number[] = ArrayUtil
+    // TODO: Fix
+    const clearedFlatIndexes: number[] = ArrayUtil
       .generateSequence(0, 81, {shuffle: true})
-      .slice(0, 51);
+      .slice(0, 41);
 
-    for (const index of clearedPlainIndexes) {
+    for (const index of clearedFlatIndexes) {
       let rowIndex: number = Math.trunc((index+1) / 9);
       let columnIndex: number = ((index+1) % 9) - 1;
 

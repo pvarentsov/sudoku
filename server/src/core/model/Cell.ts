@@ -1,7 +1,7 @@
 import { Nullable } from '../type/CommonTypes';
 import { Player } from './Player';
 
-export class GameCell {
+export class Cell {
 
   private readonly _rightValue: number;
   private _enteredValue: Nullable<number>;

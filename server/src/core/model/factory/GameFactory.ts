@@ -1,19 +1,19 @@
 import { ArrayUtil } from '../../util/ArrayUtil';
 import { Game } from '../Game';
-import { GameCell } from '../GameCell';
+import { Cell } from '../Cell';
 
 export class GameFactory {
 
   public static createGame(): Game {
-    const grid: GameCell[][] = GameFactory.createGrid();
+    const grid: Cell[][] = GameFactory.createGrid();
     GameFactory.randomClearGrid(grid);
 
     return new Game(grid);
   }
 
-  private static createGrid(): GameCell[][] {
+  private static createGrid(): Cell[][] {
     const plainGrid: number[][] = GameFactory.generatePlainGrid();
-    const grid: GameCell[][] = plainGrid.map(row => row.map(value => new GameCell(value, value)));
+    const grid: Cell[][] = plainGrid.map(row => row.map(value => new Cell(value, value)));
 
     return grid;
   }
@@ -33,7 +33,7 @@ export class GameFactory {
     return grid;
   }
 
-  private static randomClearGrid(grid: GameCell[][]): void {
+  private static randomClearGrid(grid: Cell[][]): void {
     const clearedPlainIndexes: number[] = ArrayUtil
       .generateSequence(0, 81, {shuffle: true})
       .slice(0, 51);

@@ -34,19 +34,13 @@ export class GameFactory {
   }
 
   private static randomClearGrid(grid: Cell[][]): void {
-    // TODO: Fix
     const clearedFlatIndexes: number[] = ArrayUtil
       .generateSequence(0, 81, {shuffle: true})
-      .slice(0, 41);
+      .slice(0, 31);
 
     for (const index of clearedFlatIndexes) {
-      let rowIndex: number = Math.trunc((index+1) / 9);
-      let columnIndex: number = ((index+1) % 9) - 1;
-
-      if ((index+1) % 9 === 0) {
-        rowIndex--;
-        columnIndex++;
-      }
+      const rowIndex: number = Math.trunc(index / 9);
+      const columnIndex: number = index % 9;
 
       grid[rowIndex][columnIndex].clear();
     }

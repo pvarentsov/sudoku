@@ -5,12 +5,12 @@ export class GameCell {
 
   private readonly _rightValue: number;
   private _enteredValue: Nullable<number>;
-  private _setBy: Nullable<Player>;
+  private _enteredBy: Nullable<Player>;
 
-  constructor(rightValue: number, enteredValue: Nullable<number>, setBy?: Player) {
+  constructor(rightValue: number, enteredValue: Nullable<number>, enteredBy?: Player) {
     this._rightValue   = rightValue;
     this._enteredValue = enteredValue;
-    this._setBy        = setBy || null;
+    this._enteredBy    = enteredBy || null;
   }
 
   public get rightValue(): number {
@@ -21,8 +21,8 @@ export class GameCell {
     return this._enteredValue;
   }
 
-  public get setBy(): Nullable<Player> {
-    return this._setBy;
+  public get enteredBy(): Nullable<Player> {
+    return this._enteredBy;
   }
 
   public enter(value: Nullable<number>, by?: Player): boolean {
@@ -30,7 +30,7 @@ export class GameCell {
 
     if (isValueRight) {
       this._enteredValue = value;
-      this._setBy = by || null;
+      this._enteredBy = by || null;
     }
 
     return isValueRight;
@@ -42,7 +42,7 @@ export class GameCell {
 
   public clear(): void {
     this._enteredValue = null;
-    this._setBy = null;
+    this._enteredBy = null;
   }
 
 }

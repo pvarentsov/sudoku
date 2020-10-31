@@ -1,18 +1,18 @@
 import { AssertUtil, Optional } from '@core/common';
 import { Game, GameFactory, Player } from '@core/model';
-import { CreateGameInputDTO, CreateGameOutputDTO, IService } from '@core/service';
+import { CreateNewGameInputDTO, CreateNewGameOutputDTO, IService } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
 
-export class CreateNewGameService implements IService<CreateGameInputDTO, CreateGameOutputDTO> {
+export class CreateNewGameService implements IService<CreateNewGameInputDTO, CreateNewGameOutputDTO> {
 
   constructor(
     public readonly playerStore: IPlayerStore,
     public readonly gameStore: IGameStore,
   ) {}
 
-  public async execute(input: CreateGameInputDTO): Promise<CreateGameOutputDTO> {
+  public async execute(input: CreateNewGameInputDTO): Promise<CreateNewGameOutputDTO> {
     let successResult: Optional<{
-      data: { game: Game },
+      data: {game: Game},
       targetPlayers?: string[],
     }>;
 
@@ -39,7 +39,7 @@ export class CreateNewGameService implements IService<CreateGameInputDTO, Create
       errorResult = {data: [error.message], targetPlayers: [input.executorId]};
     }
 
-    return new CreateGameOutputDTO(successResult, errorResult);
+    return new CreateNewGameOutputDTO(successResult, errorResult);
   }
 
 }

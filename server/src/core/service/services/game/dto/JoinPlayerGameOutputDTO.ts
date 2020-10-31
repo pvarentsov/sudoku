@@ -1,7 +1,7 @@
 import { Game } from '@core/model';
 import { IServiceOutputData } from '@core/service';
 
-export class CreateGameOutputDTO implements IServiceOutputData<{game: Game}, string[]> {
+export class JoinPlayerGameOutputDTO implements IServiceOutputData<{game: Game}, string[]> {
 
   constructor(
     public success?: {

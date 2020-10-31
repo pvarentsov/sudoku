@@ -22,8 +22,9 @@ export class Player {
     return this._rating;
   }
 
-  public rate(): void {
+  public rate(): Player {
     this._rating += 1;
+    return this;
   }
 
 }

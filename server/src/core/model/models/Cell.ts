@@ -1,4 +1,4 @@
-import { Nullable } from '@core/common';
+import { AssertUtil, Nullable } from '@core/common';
 import { Player } from '@core/model';
 
 export class Cell {
@@ -25,15 +25,15 @@ export class Cell {
     return this._enteredBy;
   }
 
-  public enter(value: Nullable<number>, by?: Player): boolean {
+  public enter(value: Nullable<number>, by?: Player): void {
+    const isCelFilled: boolean = Boolean(this._enteredValue);
+    AssertUtil.isFalse(isCelFilled, new Error('Cell already filled.'));
+
     const isValueRight: boolean = value === this._rightValue;
+    AssertUtil.isTrue(isValueRight, new Error('Entered incorrect value.'));
 
-    if (isValueRight) {
-      this._enteredValue = value;
-      this._enteredBy = by || null;
-    }
-
-    return isValueRight;
+    this._enteredValue = value;
+    this._enteredBy = by || null;
   }
 
   public isSolved(): boolean {

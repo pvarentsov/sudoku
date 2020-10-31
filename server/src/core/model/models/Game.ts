@@ -5,8 +5,8 @@ export class Game {
 
   private readonly _id: string;
   private readonly _grid: Cell[][];
-  private readonly _status: GameStatus;
   private readonly _players: Player[];
+  private _status: GameStatus;
 
   constructor(grid: Cell[][]) {
     this._id     = 'TODO: uuid v4';
@@ -38,7 +38,15 @@ export class Game {
     return this._grid.map(row => row.map(cell => cell.enteredValue || 0));
   }
 
+  public play(): Game {
+    this._status = GameStatus.Playing;
+    return this;
+  }
+
   public enter(coordinate: Coordinate, value: number, player: Player): Game {
+    const isGameInPlayingStatus: boolean = this._status === GameStatus.Playing;
+    AssertUtil.isTrue(isGameInPlayingStatus, new Error('Game not yet started'));
+
     const isPlayerJoined: boolean = !! this._players.find(_player => _player.id === player.id);
     AssertUtil.isTrue(isPlayerJoined, new Error('Player does not joined'));
 
@@ -48,6 +56,9 @@ export class Game {
   }
 
   public join(player: Player): Game {
+    const isGameInWaitingStatus: boolean = this._status === GameStatus.Waiting;
+    AssertUtil.isTrue(isGameInWaitingStatus, new Error('Game already started'));
+
     const isPlayerAlreadyJoined: boolean = !! this._players.find(_player => _player.id === player.id);
     AssertUtil.isFalse(isPlayerAlreadyJoined, new Error('Player already joined'));
 

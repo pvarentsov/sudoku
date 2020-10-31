@@ -1,7 +1,4 @@
-import { Cell } from './Cell';
-import { Coordinate } from './Coordinate';
-import { GameStatus } from './enum/GameStatus';
-import { Player } from './Player';
+import { Cell, Coordinate, GameStatus, Player } from '@core/model';
 
 export class Game {
 

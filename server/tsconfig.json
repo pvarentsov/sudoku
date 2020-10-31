@@ -5,6 +5,10 @@
       "./src"
     ],
     "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@core": ["src/core"]
+    },
     "target": "ES2020",
     "module": "commonjs",
     "lib": [

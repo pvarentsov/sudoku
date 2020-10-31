@@ -1,6 +1,5 @@
-import { ArrayUtil } from '../../util/ArrayUtil';
-import { Game } from '../Game';
-import { Cell } from '../Cell';
+import { Cell, Game } from '@core/model';
+import { ArrayUtil } from '@core/util';
 
 export class GameFactory {
 

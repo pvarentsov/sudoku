@@ -1,5 +1,5 @@
-import { GameFactory } from './core/model/factory/GameFactory';
-import { Game } from './core/model/Game';
+import 'module-alias/register';
+import { Game, GameFactory } from '@core/model';
 
 const game: Game = GameFactory.createGame();
 

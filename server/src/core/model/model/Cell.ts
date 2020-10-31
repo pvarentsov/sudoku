@@ -1,5 +1,5 @@
-import { Nullable } from '../type/CommonTypes';
-import { Player } from './Player';
+import { Player } from '@core/model';
+import { Nullable } from '@core/type';
 
 export class Cell {
 

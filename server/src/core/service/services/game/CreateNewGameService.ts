@@ -24,7 +24,7 @@ export class CreateNewGameService implements IService<CreateGameInputDTO, Create
     try {
       const player: Player = AssertUtil.notEmpty(
         await this.playerStore.findPlayer({id: input.executorId}),
-        new Error(`${CreateNewGameService.name}: Executor player not fond.`)
+        new Error(`${CreateNewGameService.name}: Executor player not found.`)
       );
 
       const game: Game = GameFactory

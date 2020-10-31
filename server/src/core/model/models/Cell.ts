@@ -1,4 +1,4 @@
-import { Nullable } from '@core/common/types';
+import { Nullable } from '@core/common';
 import { Player } from '@core/model';
 
 export class Cell {

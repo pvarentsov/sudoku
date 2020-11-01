@@ -11,5 +11,4 @@ export class SudokuServer {
     Logger.log(`Application is running on: ${await app.getUrl()}`, SudokuServer.name);
   }
 
-
 }

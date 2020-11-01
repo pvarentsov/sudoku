@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>Sudoku</title>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+</head>
+
+<body>
+    <script>
+        const socket = io('http://localhost:3000', {
+            transports: ['websocket'],
+            upgrade   : true,
+        });
+
+        socket.emit('game:create', {executorId: 'uuid'}, function (data) {
+            console.log(data);
+        });
+
+        socket.on('errors', (data) => {
+            console.log(data);
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,10 +1,12 @@
-import { Inject } from '@nestjs/common';
+import { Inject, UseFilters } from '@nestjs/common';
 import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { WSExceptionFilter } from '@sudoku/app/gateways/exception-handler/WSExceptionFilter';
 import { CoreDITokens } from '@sudoku/core/common';
 import { InputCreateNewGameDTO, IService, OutputGameDTO } from '@sudoku/core/service';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
+@UseFilters(WSExceptionFilter)
 export class GameEventGateway {
 
   @WebSocketServer()
@@ -14,7 +16,7 @@ export class GameEventGateway {
   private readonly createNewGameService: IService<InputCreateNewGameDTO, OutputGameDTO>;
 
   @SubscribeMessage('game:create')
-  public async createGame(@MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
+  public async createGame(client: Socket, @MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
     return this.createNewGameService.execute(input);
   }
 

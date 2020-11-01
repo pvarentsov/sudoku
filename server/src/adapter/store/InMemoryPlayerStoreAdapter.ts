@@ -1,6 +1,6 @@
-import { Optional } from '@core/common';
-import { Player } from '@core/model';
-import { IPlayerStore } from '@core/store';
+import { Optional } from '@sudoku/core/common';
+import { Player } from '@sudoku/core/model';
+import { IPlayerStore } from '@sudoku/core/store';
 
 export class InMemoryPlayerStoreAdapter implements IPlayerStore {
 

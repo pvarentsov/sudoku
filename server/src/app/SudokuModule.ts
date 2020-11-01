@@ -1,5 +1,6 @@
-import { InMemoryGameStoreAdapter, InMemoryPlayerStoreAdapter } from '@adapter';
-import { CoreDITokens } from '@core/common';
+import { Module, Provider } from '@nestjs/common';
+import { InMemoryGameStoreAdapter, InMemoryPlayerStoreAdapter } from '@sudoku/adapter';
+import { CoreDITokens } from '@sudoku/core/common';
 import {
   CreateNewGameService,
   CreatePlayerService,
@@ -7,8 +8,7 @@ import {
   JoinPlayerGameService,
   PlayGameService,
   RemovePlayerService
-} from '@core/service';
-import { Module, Provider } from '@nestjs/common';
+} from '@sudoku/core/service';
 
 const providers: Provider[] = [
 

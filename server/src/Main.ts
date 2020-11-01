@@ -1,5 +1,5 @@
 import 'module-alias/register';
-import { Game, GameFactory } from '@core/model';
+import { Game, GameFactory } from '@sudoku/core/model';
 
 const game: Game = GameFactory.createGame();
 

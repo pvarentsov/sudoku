@@ -1,6 +1,6 @@
-import { Optional } from '@core/common';
-import { Game, GameStatus } from '@core/model';
-import { IGameStore } from '@core/store';
+import { Optional } from '@sudoku/core/common';
+import { Game, GameStatus } from '@sudoku/core/model';
+import { IGameStore } from '@sudoku/core/store';
 
 export class InMemoryGameStoreAdapter implements IGameStore {
 

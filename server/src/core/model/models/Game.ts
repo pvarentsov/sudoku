@@ -1,5 +1,5 @@
-import { AssertUtil, CoreError } from '@core/common';
-import { Cell, Coordinate, GameStatus, Player } from '@core/model';
+import { AssertUtil, CoreError } from '@sudoku/core/common';
+import { Cell, Coordinate, GameStatus, Player } from '@sudoku/core/model';
 import { v4 } from 'uuid';
 
 export class Game {

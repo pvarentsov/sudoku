@@ -1,4 +1,4 @@
-import { Cell, Game, Player } from '@core/model';
+import { Cell, Game, Player } from '@sudoku/core/model';
 
 export class OutputGameDTO {
 

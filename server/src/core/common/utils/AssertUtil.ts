@@ -1,4 +1,4 @@
-import { Nullable, Optional } from '@core/common';
+import { Nullable, Optional } from '@sudoku/core/common';
 
 export class AssertUtil {
 

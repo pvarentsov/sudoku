@@ -1,5 +1,5 @@
-import { AssertUtil, Nullable } from '@core/common';
-import { Player } from '@core/model';
+import { AssertUtil, Nullable } from '@sudoku/core/common';
+import { Player } from '@sudoku/core/model';
 
 export class Cell {
 

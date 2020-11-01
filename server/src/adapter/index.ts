@@ -1,2 +1,2 @@
-export * from '@adapter/store/InMemoryGameStoreAdapter';
-export * from '@adapter/store/InMemoryPlayerStoreAdapter';
+export * from '@sudoku/adapter/store/InMemoryGameStoreAdapter';
+export * from '@sudoku/adapter/store/InMemoryPlayerStoreAdapter';

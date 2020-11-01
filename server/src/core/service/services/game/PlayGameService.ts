@@ -1,7 +1,7 @@
-import { AssertUtil, CoreError } from '@core/common';
-import { Game } from '@core/model';
-import { InputPlayGameDTO, IService, OutputGameDTO } from '@core/service';
-import { IGameStore } from '@core/store';
+import { AssertUtil, CoreError } from '@sudoku/core/common';
+import { Game } from '@sudoku/core/model';
+import { InputPlayGameDTO, IService, OutputGameDTO } from '@sudoku/core/service';
+import { IGameStore } from '@sudoku/core/store';
 
 export class PlayGameService implements IService<InputPlayGameDTO, OutputGameDTO> {
 

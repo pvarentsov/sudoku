@@ -1,2 +1,2 @@
-export * from '@core/store/interfaces/IGameStore';
-export * from '@core/store/interfaces/IPlayerStore';
+export * from '@sudoku/core/store/interfaces/IGameStore';
+export * from '@sudoku/core/store/interfaces/IPlayerStore';

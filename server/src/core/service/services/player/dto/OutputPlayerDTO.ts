@@ -1,4 +1,4 @@
-import { Player } from '@core/model';
+import { Player } from '@sudoku/core/model';
 
 export class OutputPlayerDTO {
 

@@ -1,5 +1,5 @@
-import { Optional } from '@core/common';
-import { Game, GameStatus } from '@core/model';
+import { Optional } from '@sudoku/core/common';
+import { Game, GameStatus } from '@sudoku/core/model';
 
 export interface IGameStore {
   addGame(game: Game): Promise<void>;

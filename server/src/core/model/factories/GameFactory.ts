@@ -1,5 +1,5 @@
-import { ArrayUtil } from '@core/common';
-import { Cell, Game } from '@core/model';
+import { ArrayUtil } from '@sudoku/core/common';
+import { Cell, Game } from '@sudoku/core/model';
 
 export class GameFactory {
 

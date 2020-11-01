@@ -1,8 +1,8 @@
-import { AssertUtil, Optional } from '@core/common';
-import { CoreError } from '@core/common/errors/CoreError';
-import { Player } from '@core/model';
-import { InputCreatePlayerDTO, IService, OutputPlayerDTO } from '@core/service';
-import { IPlayerStore } from '@core/store';
+import { AssertUtil, Optional } from '@sudoku/core/common';
+import { CoreError } from '@sudoku/core/common/errors/CoreError';
+import { Player } from '@sudoku/core/model';
+import { InputCreatePlayerDTO, IService, OutputPlayerDTO } from '@sudoku/core/service';
+import { IPlayerStore } from '@sudoku/core/store';
 
 export class CreatePlayerService implements IService<InputCreatePlayerDTO, OutputPlayerDTO> {
 

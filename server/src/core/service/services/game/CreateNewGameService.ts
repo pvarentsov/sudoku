@@ -1,5 +1,4 @@
-import { AssertUtil } from '@core/common';
-import { GameError } from '@core/common/errors/GameError';
+import { AssertUtil, GameError } from '@core/common';
 import { Game, GameFactory, Player } from '@core/model';
 import { InputCreateNewGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';

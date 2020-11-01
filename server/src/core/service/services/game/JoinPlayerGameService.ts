@@ -1,4 +1,4 @@
-import { AssertUtil } from '@core/common';
+import { AssertUtil, GameError } from '@core/common';
 import { Game, Player } from '@core/model';
 import { InputJoinPlayerGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
@@ -13,12 +13,12 @@ export class JoinPlayerGameService implements IService<InputJoinPlayerGameDTO, O
   public async execute(input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
     const player: Player = AssertUtil.notEmpty(
       await this.playerStore.findPlayer({id: input.executorId}),
-      new Error(`${JoinPlayerGameService.name}: Executor player not found.`)
+      new GameError('Executor player not found.', [input.executorId])
     );
 
     const game: Game = AssertUtil.notEmpty(
       await this.gameStore.findGame({id: input.gameId}),
-      new Error(`${JoinPlayerGameService.name}: Game not found.`)
+      new GameError('Game not found.', [input.executorId])
     );
 
     await this.gameStore.updateGame(game.join(player));

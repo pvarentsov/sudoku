@@ -1,5 +1,4 @@
-import { AssertUtil } from '@core/common';
-import { GameError } from '@core/common/errors/GameError';
+import { AssertUtil, GameError } from '@core/common';
 import { Cell, Coordinate, GameStatus, Player } from '@core/model';
 
 export class Game {

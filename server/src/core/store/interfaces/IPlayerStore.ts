@@ -6,5 +6,5 @@ export interface IPlayerStore {
   updatePlayer(player: Player): Promise<void>;
   removePlayer(player: Player): Promise<void>;
   findPlayer(filter: {id?: string, nickname?: string}): Promise<Optional<Player>>;
-  findPlayers(filter?: {rating?: number}): Promise<Player[]>;
+  findPlayers(): Promise<Player[]>;
 }

@@ -1,5 +1,5 @@
 import { AssertUtil, Optional } from '@core/common';
-import { PlayerError } from '@core/common/errors/PlayerError';
+import { CoreError } from '@core/common/errors/CoreError';
 import { Player } from '@core/model';
 import { InputCreatePlayerDTO, IService, OutputPlayerDTO } from '@core/service';
 import { IPlayerStore } from '@core/store';
@@ -12,7 +12,7 @@ export class CreatePlayerService implements IService<InputCreatePlayerDTO, Outpu
 
   public async execute(input: InputCreatePlayerDTO): Promise<OutputPlayerDTO> {
     const existingPlayer: Optional<Player> = await this.playerStore.findPlayer({nickname: input.nickname});
-    AssertUtil.isFalse(!existingPlayer, new PlayerError('Player already exists.'));
+    AssertUtil.isFalse(!existingPlayer, new CoreError('Player already exists.'));
 
     const player: Player = new Player(input.nickname);
     await this.playerStore.addPlayer(player);

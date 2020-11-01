@@ -1,4 +1,4 @@
-import { AssertUtil, GameError, Optional } from '@core/common';
+import { AssertUtil, CoreError, Optional } from '@core/common';
 import { Coordinate, Game, Player } from '@core/model';
 import { InputEnterValueGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
@@ -13,12 +13,12 @@ export class EnterValueGameService implements IService<InputEnterValueGameDTO, O
   public async execute(input: InputEnterValueGameDTO): Promise<OutputGameDTO> {
     const game: Game = AssertUtil.notEmpty(
       await this.gameStore.findGame({id: input.gameId}),
-      new GameError('Game not found.')
+      new CoreError('Game not found.')
     );
 
     const player: Player = AssertUtil.notEmpty(
       game.players.find(player => input.executorId === player.id),
-      new GameError('Player not joined.')
+      new CoreError('Player not joined.')
     );
 
     const coordinate: Coordinate = new Coordinate(input.rowIndex, input.columnIndex);

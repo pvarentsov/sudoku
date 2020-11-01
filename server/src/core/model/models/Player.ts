@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 export class Player {
 
   private readonly _id: string;
@@ -5,7 +7,7 @@ export class Player {
   private _rating: number;
 
   constructor(nickname: string) {
-    this._id       = 'TODO: uuid v4';
+    this._id       = v4();
     this._nickname = nickname;
     this._rating   = 0;
   }

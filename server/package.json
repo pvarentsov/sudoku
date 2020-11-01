@@ -34,7 +34,7 @@
   },
   "_moduleAliases": {
     "@core": "core",
-    "@infrastructure": "infrastructure",
-    "@application": "application"
+    "@adapter": "adapter",
+    "@app": "app"
   }
 }

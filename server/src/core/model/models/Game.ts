@@ -1,4 +1,5 @@
 import { AssertUtil } from '@core/common';
+import { GameError } from '@core/common/errors/GameError';
 import { Cell, Coordinate, GameStatus, Player } from '@core/model';
 
 export class Game {
@@ -45,10 +46,10 @@ export class Game {
 
   public enter(coordinate: Coordinate, value: number, player: Player): Game {
     const isGameInPlayingStatus: boolean = this._status === GameStatus.Playing;
-    AssertUtil.isTrue(isGameInPlayingStatus, new Error('Game not yet started'));
+    AssertUtil.isTrue(isGameInPlayingStatus, new GameError('Game not yet started', [player.id]));
 
     const isPlayerJoined: boolean = !! this._players.find(_player => _player.id === player.id);
-    AssertUtil.isTrue(isPlayerJoined, new Error('Player does not joined'));
+    AssertUtil.isTrue(isPlayerJoined, new GameError('Player does not joined', [player.id]));
 
     this._grid[coordinate.rowIndex][coordinate.columnIndex].enter(value, player);
 
@@ -57,10 +58,10 @@ export class Game {
 
   public join(player: Player): Game {
     const isGameInWaitingStatus: boolean = this._status === GameStatus.Waiting;
-    AssertUtil.isTrue(isGameInWaitingStatus, new Error('Game already started'));
+    AssertUtil.isTrue(isGameInWaitingStatus, new GameError('Game already started', [player.id]));
 
     const isPlayerAlreadyJoined: boolean = !! this._players.find(_player => _player.id === player.id);
-    AssertUtil.isFalse(isPlayerAlreadyJoined, new Error('Player already joined'));
+    AssertUtil.isFalse(isPlayerAlreadyJoined, new GameError('Player already joined', [player.id]));
 
     this._players.push(player);
 

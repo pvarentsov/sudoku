@@ -1,7 +1,6 @@
-import { IServiceInputData } from '@core/service';
 import { IsUUID } from 'class-validator';
 
-export class JoinPlayerGameInputDTO implements IServiceInputData {
+export class InputPlayGameDTO {
 
   @IsUUID()
   public executorId: string;

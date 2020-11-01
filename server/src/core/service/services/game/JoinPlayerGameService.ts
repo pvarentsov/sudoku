@@ -1,49 +1,29 @@
-import { AssertUtil, Optional } from '@core/common';
+import { AssertUtil } from '@core/common';
 import { Game, Player } from '@core/model';
-import { IService, JoinPlayerGameInputDTO, JoinPlayerGameOutputDTO } from '@core/service';
+import { InputJoinPlayerGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
 
-export class JoinPlayerGameService implements IService<JoinPlayerGameInputDTO, JoinPlayerGameOutputDTO> {
+export class JoinPlayerGameService implements IService<InputJoinPlayerGameDTO, OutputGameDTO> {
 
   constructor(
     public readonly playerStore: IPlayerStore,
     public readonly gameStore: IGameStore,
   ) {}
 
-  public async execute(input: JoinPlayerGameInputDTO): Promise<JoinPlayerGameOutputDTO> {
-    let successResult: Optional<{
-      data: {game: Game},
-      targetPlayers?: string[],
-    }>;
+  public async execute(input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
+    const player: Player = AssertUtil.notEmpty(
+      await this.playerStore.findPlayer({id: input.executorId}),
+      new Error(`${JoinPlayerGameService.name}: Executor player not found.`)
+    );
 
-    let errorResult: Optional<{
-      data: string[],
-      targetPlayers?: string[],
-    }>;
+    const game: Game = AssertUtil.notEmpty(
+      await this.gameStore.findGame({id: input.gameId}),
+      new Error(`${JoinPlayerGameService.name}: Game not found.`)
+    );
 
-    try {
-      const player: Player = AssertUtil.notEmpty(
-        await this.playerStore.findPlayer({id: input.executorId}),
-        new Error(`${JoinPlayerGameService.name}: Executor player not found.`)
-      );
+    await this.gameStore.updateGame(game.join(player));
 
-      const game: Game = AssertUtil.notEmpty(
-        await this.gameStore.findGame({id: input.gameId}),
-        new Error(`${JoinPlayerGameService.name}: Game not found.`)
-      );
-
-      await this.gameStore.updateGame(game.join(player));
-
-      const data: {game: Game} = {game};
-      const targetPlayers: string[] = game.players.map(player => player.id);
-
-      successResult = {data, targetPlayers};
-    }
-    catch (error) {
-      errorResult = {data: [error.message], targetPlayers: [input.executorId]};
-    }
-
-    return new JoinPlayerGameOutputDTO(successResult, errorResult);
+    return new OutputGameDTO(game);
   }
 
 }

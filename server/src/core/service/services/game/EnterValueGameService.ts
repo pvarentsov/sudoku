@@ -1,57 +1,40 @@
 import { AssertUtil, Optional } from '@core/common';
+import { GameError } from '@core/common/errors/GameError';
 import { Coordinate, Game, Player } from '@core/model';
-import { EnterValueGameInputDTO, EnterValueGameOutputDTO, IService } from '@core/service';
+import { InputEnterValueGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
 
-export class EnterValueGameService implements IService<EnterValueGameInputDTO, EnterValueGameOutputDTO> {
+export class EnterValueGameService implements IService<InputEnterValueGameDTO, OutputGameDTO> {
 
   constructor(
     public readonly playerStore: IPlayerStore,
     public readonly gameStore: IGameStore,
   ) {}
 
-  public async execute(input: EnterValueGameInputDTO): Promise<EnterValueGameOutputDTO> {
-    let successResult: Optional<{
-      data: {game: Game, solved?: Player},
-      targetPlayers?: string[],
-    }>;
+  public async execute(input: InputEnterValueGameDTO): Promise<OutputGameDTO> {
+    const game: Game = AssertUtil.notEmpty(
+      await this.gameStore.findGame({id: input.gameId}),
+      new GameError('Game not found.', [input.executorId])
+    );
 
-    let errorResult: Optional<{
-      data: string[],
-      targetPlayers?: string[],
-    }>;
+    const player: Player = AssertUtil.notEmpty(
+      game.players.find(player => input.executorId === player.id),
+      new GameError('Player not joined.', [input.executorId])
+    );
 
-    try {
-      const game: Game = AssertUtil.notEmpty(
-        await this.gameStore.findGame({id: input.gameId}),
-        new Error(`${EnterValueGameService.name}: Game not found.`)
-      );
+    const coordinate: Coordinate = new Coordinate(input.rowIndex, input.columnIndex);
+    const value: number = input.value;
 
-      const player: Player = AssertUtil.notEmpty(
-        game.players.find(player => input.executorId === player.id),
-        new Error(`${EnterValueGameService.name}: Player not joined.`)
-      );
+    await this.gameStore.updateGame(game.enter(coordinate, value, player));
 
-      const coordinate: Coordinate = new Coordinate(input.rowIndex, input.columnIndex);
-      const value: number = input.value;
+    let winner: Optional<Player>;
 
-      await this.gameStore.updateGame(game.enter(coordinate, value, player));
-
-      if (game.isSolved()) {
-        player.rate();
-        await this.playerStore.updatePlayer(player);
-      }
-
-      const data: {game: Game, solved?: Player} = {game: game, solved: game.isSolved() ? player : undefined};
-      const targetPlayers: string[] = game.players.map(player => player.id);
-
-      successResult = {data, targetPlayers};
-    }
-    catch (error) {
-      errorResult = {data: [error.message], targetPlayers: [input.executorId]};
+    if (game.isSolved()) {
+      winner = player.rate();
+      await this.playerStore.updatePlayer(winner);
     }
 
-    return new EnterValueGameOutputDTO(successResult, errorResult);
+    return new OutputGameDTO(game, winner);
   }
 
 }

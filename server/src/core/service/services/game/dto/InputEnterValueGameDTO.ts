@@ -1,7 +1,6 @@
-import { IServiceInputData } from '@core/service';
 import { IsNumber, IsUUID, Max, Min } from 'class-validator';
 
-export class EnterValueGameInputDTO implements IServiceInputData {
+export class InputEnterValueGameDTO {
 
   @IsUUID()
   public executorId: string;

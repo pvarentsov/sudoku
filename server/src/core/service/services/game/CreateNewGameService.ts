@@ -1,45 +1,29 @@
-import { AssertUtil, Optional } from '@core/common';
+import { AssertUtil } from '@core/common';
+import { GameError } from '@core/common/errors/GameError';
 import { Game, GameFactory, Player } from '@core/model';
-import { CreateNewGameInputDTO, CreateNewGameOutputDTO, IService } from '@core/service';
+import { InputCreateNewGameDTO, IService, OutputGameDTO } from '@core/service';
 import { IGameStore, IPlayerStore } from '@core/store';
 
-export class CreateNewGameService implements IService<CreateNewGameInputDTO, CreateNewGameOutputDTO> {
+export class CreateNewGameService implements IService<InputCreateNewGameDTO, OutputGameDTO> {
 
   constructor(
     public readonly playerStore: IPlayerStore,
     public readonly gameStore: IGameStore,
   ) {}
 
-  public async execute(input: CreateNewGameInputDTO): Promise<CreateNewGameOutputDTO> {
-    let successResult: Optional<{
-      data: {game: Game},
-      targetPlayers?: string[],
-    }>;
+  public async execute(input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
+    const player: Player = AssertUtil.notEmpty(
+      await this.playerStore.findPlayer({id: input.executorId}),
+      new GameError('Executor player not found.', [input.executorId])
+    );
 
-    let errorResult: Optional<{
-      data: string[],
-      targetPlayers?: string[],
-    }>;
+    const game: Game = GameFactory
+      .createGame()
+      .join(player);
 
-    try {
-      const player: Player = AssertUtil.notEmpty(
-        await this.playerStore.findPlayer({id: input.executorId}),
-        new Error(`${CreateNewGameService.name}: Executor player not found.`)
-      );
+    await this.gameStore.addGame(game);
 
-      const game: Game = GameFactory
-        .createGame()
-        .join(player);
-
-      await this.gameStore.addGame(game);
-
-      successResult = {data: {game}};
-    }
-    catch (error) {
-      errorResult = {data: [error.message], targetPlayers: [input.executorId]};
-    }
-
-    return new CreateNewGameOutputDTO(successResult, errorResult);
+    return new OutputGameDTO(game);
   }
 
 }

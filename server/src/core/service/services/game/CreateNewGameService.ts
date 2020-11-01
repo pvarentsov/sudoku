@@ -13,7 +13,7 @@ export class CreateNewGameService implements IService<InputCreateNewGameDTO, Out
   public async execute(input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
     const player: Player = AssertUtil.notEmpty(
       await this.playerStore.findPlayer({id: input.executorId}),
-      new GameError('Executor player not found.', [input.executorId])
+      new GameError('Executor player not found.')
     );
 
     const game: Game = GameFactory

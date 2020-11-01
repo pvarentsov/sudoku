@@ -13,12 +13,12 @@ export class JoinPlayerGameService implements IService<InputJoinPlayerGameDTO, O
   public async execute(input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
     const player: Player = AssertUtil.notEmpty(
       await this.playerStore.findPlayer({id: input.executorId}),
-      new GameError('Executor player not found.', [input.executorId])
+      new GameError('Executor player not found.')
     );
 
     const game: Game = AssertUtil.notEmpty(
       await this.gameStore.findGame({id: input.gameId}),
-      new GameError('Game not found.', [input.executorId])
+      new GameError('Game not found.')
     );
 
     await this.gameStore.updateGame(game.join(player));

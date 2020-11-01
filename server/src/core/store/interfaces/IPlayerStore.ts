@@ -1,8 +1,10 @@
+import { Optional } from '@core/common';
 import { Player } from '@core/model';
 
 export interface IPlayerStore {
-  addPlayer(Player: Player): Promise<void>;
-  updatePlayer(Player: Player): Promise<void>;
-  findPlayer(filter: {id?: string, nickname?: string}): Promise<Player>;
+  addPlayer(player: Player): Promise<void>;
+  updatePlayer(player: Player): Promise<void>;
+  removePlayer(player: Player): Promise<void>;
+  findPlayer(filter: {id?: string, nickname?: string}): Promise<Optional<Player>>;
   findPlayers(filter?: {rating?: number}): Promise<Player[]>;
 }

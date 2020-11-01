@@ -13,12 +13,12 @@ export class EnterValueGameService implements IService<InputEnterValueGameDTO, O
   public async execute(input: InputEnterValueGameDTO): Promise<OutputGameDTO> {
     const game: Game = AssertUtil.notEmpty(
       await this.gameStore.findGame({id: input.gameId}),
-      new GameError('Game not found.', [input.executorId])
+      new GameError('Game not found.')
     );
 
     const player: Player = AssertUtil.notEmpty(
       game.players.find(player => input.executorId === player.id),
-      new GameError('Player not joined.', [input.executorId])
+      new GameError('Player not joined.')
     );
 
     const coordinate: Coordinate = new Coordinate(input.rowIndex, input.columnIndex);
@@ -30,7 +30,9 @@ export class EnterValueGameService implements IService<InputEnterValueGameDTO, O
 
     if (game.isSolved()) {
       winner = player.rate();
+
       await this.playerStore.updatePlayer(winner);
+      await this.gameStore.removeGame(game);
     }
 
     return new OutputGameDTO(game, winner);

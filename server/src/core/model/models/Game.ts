@@ -45,10 +45,10 @@ export class Game {
 
   public enter(coordinate: Coordinate, value: number, player: Player): Game {
     const isGameInPlayingStatus: boolean = this._status === GameStatus.Playing;
-    AssertUtil.isTrue(isGameInPlayingStatus, new GameError('Game not yet started', [player.id]));
+    AssertUtil.isTrue(isGameInPlayingStatus, new GameError('Game not yet started'));
 
     const isPlayerJoined: boolean = !! this._players.find(_player => _player.id === player.id);
-    AssertUtil.isTrue(isPlayerJoined, new GameError('Player does not joined', [player.id]));
+    AssertUtil.isTrue(isPlayerJoined, new GameError('Player does not joined'));
 
     this._grid[coordinate.rowIndex][coordinate.columnIndex].enter(value, player);
 
@@ -57,10 +57,10 @@ export class Game {
 
   public join(player: Player): Game {
     const isGameInWaitingStatus: boolean = this._status === GameStatus.Waiting;
-    AssertUtil.isTrue(isGameInWaitingStatus, new GameError('Game already started', [player.id]));
+    AssertUtil.isTrue(isGameInWaitingStatus, new GameError('Game already started'));
 
     const isPlayerAlreadyJoined: boolean = !! this._players.find(_player => _player.id === player.id);
-    AssertUtil.isFalse(isPlayerAlreadyJoined, new GameError('Player already joined', [player.id]));
+    AssertUtil.isFalse(isPlayerAlreadyJoined, new GameError('Player already joined'));
 
     this._players.push(player);
 

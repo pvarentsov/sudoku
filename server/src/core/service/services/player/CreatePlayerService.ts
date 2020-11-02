@@ -1,5 +1,4 @@
-import { AssertUtil, Optional } from '@sudoku/core/common';
-import { CoreError } from '@sudoku/core/common/errors/CoreError';
+import { AssertUtil, CoreError, Optional } from '@sudoku/core/common';
 import { Player } from '@sudoku/core/model';
 import { InputCreatePlayerDTO, IService, OutputPlayerDTO } from '@sudoku/core/service';
 import { IPlayerStore } from '@sudoku/core/store';
@@ -12,7 +11,7 @@ export class CreatePlayerService implements IService<InputCreatePlayerDTO, Outpu
 
   public async execute(input: InputCreatePlayerDTO): Promise<OutputPlayerDTO> {
     const existingPlayer: Optional<Player> = await this.playerStore.findPlayer({nickname: input.nickname});
-    AssertUtil.isFalse(!existingPlayer, new CoreError('Player already exists.'));
+    AssertUtil.isEmpty(existingPlayer, new CoreError('Player already exists.'));
 
     const player: Player = new Player(input.nickname);
     await this.playerStore.addPlayer(player);

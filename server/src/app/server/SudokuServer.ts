@@ -1,6 +1,6 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SudokuModule } from '@sudoku/app';
+import { SudokuModule } from '@sudoku/app/modules/SudokuModule';
 
 export class SudokuServer {
 

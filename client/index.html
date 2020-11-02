@@ -11,7 +11,7 @@
             upgrade   : true,
         });
 
-        socket.emit('game:create', {executorId: 'uuid'}, function (data) {
+        socket.emit('player:create', {nickname: 'pavel'}, function (data) {
             console.log(data);
         });
 

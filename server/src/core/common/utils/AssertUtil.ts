@@ -21,4 +21,10 @@ export class AssertUtil {
     return value;
   }
 
+  public static isEmpty<T>(value: Optional<Nullable<T>>, error: Error): void {
+    if (value) {
+      throw error;
+    }
+  }
+
 }

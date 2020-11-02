@@ -1,5 +1,4 @@
-import { AssertUtil } from '@sudoku/core/common';
-import { CoreError } from '@sudoku/core/common/errors/CoreError';
+import { AssertUtil, CoreError } from '@sudoku/core/common';
 import { Player } from '@sudoku/core/model';
 import { InputRemovePlayerDTO, IService } from '@sudoku/core/service';
 import { IPlayerStore } from '@sudoku/core/store';

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InMemoryGameStoreAdapter, InMemoryPlayerStoreAdapter } from '@sudoku/adapter';
-import { GameEventGateway } from '@sudoku/app/gateways/GameEventGateway';
+import { SocketPlayerManager } from '@sudoku/app/gateways/socket-manager/SocketPlayerManager';
+import { SudokuEventGateway } from '@sudoku/app/gateways/SudokuEventGateway';
 import { CoreDITokens } from '@sudoku/core/common';
 import {
   CreateNewGameService,
@@ -16,7 +17,8 @@ import {
 
     // Gateways
 
-    GameEventGateway,
+    SudokuEventGateway,
+    SocketPlayerManager,
 
     // Store
 

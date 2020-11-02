@@ -5,18 +5,49 @@
 </head>
 
 <body>
+    <div id="state">
+        <div id="connect">
+            <input id="connect-input" placeholder="Enter your nickname">
+            <button id="connect-button">Connect</button>
+        </div>
+        <div id="test">
+            <input id="test-input" placeholder="test-input">
+        </div>
+    </div>
     <script>
-        const socket = io('http://localhost:3000', {
-            transports: ['websocket'],
-            upgrade   : true,
-        });
+        const state = document.getElementById("state");
 
-        socket.emit('player:create', {nickname: 'pavel'}, function (data) {
-            console.log(data);
-        });
+        // Connect
+
+        const connect = document.getElementById("connect");
+        const connectButton = document.getElementById("connect-button");
+        const connectInput = document.getElementById("connect-input");
+
+        connect.style.display = "block";
+
+        // Test
+
+        const test = document.getElementById("test");
+
+        test.style.display = "none";
+
+        /////////////////////////////////////////////////////////////////////////////////////////
+
+        const socket = io('http://localhost:3000', {transports: ['websocket'], upgrade: true});
+        let player;
 
         socket.on('errors', (data) => {
             console.log(data);
+        });
+
+        connectButton.addEventListener("click", () => {
+            socket.emit('player:create', {nickname: connectInput.value}, function (playerData) {
+                player = playerData;
+                alert(`Welcome ${player.nickname}!`);
+            });
+
+            connect.style.display = "none";
+            test.style.display = "block";
         });
 
     </script>

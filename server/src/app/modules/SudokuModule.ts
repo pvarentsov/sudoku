@@ -8,6 +8,8 @@ import {
   CreatePlayerService,
   EnterValueGameService,
   JoinPlayerGameService,
+  ListGamesService,
+  ListPlayersService,
   PlayGameService,
   RemovePlayerService
 } from '@sudoku/core/service';
@@ -49,6 +51,11 @@ import {
       inject: [CoreDITokens.PlayerStore, CoreDITokens.GameStore]
     },
     {
+      provide: CoreDITokens.ListGamesService,
+      useFactory: (gameStore) => new ListGamesService(gameStore),
+      inject: [CoreDITokens.GameStore]
+    },
+    {
       provide: CoreDITokens.PlayGameService,
       useFactory: (gameStore) => new PlayGameService(gameStore),
       inject: [CoreDITokens.GameStore]
@@ -59,6 +66,11 @@ import {
     {
       provide: CoreDITokens.CreatePlayerService,
       useFactory: (playerStore) => new CreatePlayerService(playerStore),
+      inject: [CoreDITokens.PlayerStore]
+    },
+    {
+      provide: CoreDITokens.ListPlayersService,
+      useFactory: (playerStore) => new ListPlayersService(playerStore),
       inject: [CoreDITokens.PlayerStore]
     },
     {

@@ -34,7 +34,9 @@ export class InMemoryPlayerStoreAdapter implements IPlayerStore {
   }
 
   public async findPlayers(): Promise<Player[]> {
-    return Array.from(this.store.values());
+    return Array
+      .from(this.store.values())
+      .sort((left, right) => right.rating - left.rating);
   }
 
 }

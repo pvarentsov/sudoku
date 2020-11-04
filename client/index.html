@@ -1,54 +1,307 @@
 <html>
 <head>
     <title>Sudoku</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
-
 <body>
     <div id="state">
-        <div id="connect">
-            <input id="connect-input" placeholder="Enter your nickname">
-            <button id="connect-button">Connect</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="connect" class="row">
+            <div class="input-field col s4 push-s3">
+                <input id="connect-input" type="text" placeholder="Enter your nickname" class="validate" required="" aria-required="true">
+                <label for="connect-input">Nickname</label>
+            </div>
+            <div id="connect-button" class="btn-large col s2 push-s3" type="submit" name="action">
+                <span>Connect</span>
+            </div>
         </div>
-        <div id="test">
-            <input id="test-input" placeholder="test-input">
+        <div id="list" class="row" style="display: none">
+            <div id="list-games-update" class="btn col s3 push-s2">
+                <span>Games</span>
+                <i class="material-icons tiny right" style="cursor: pointer">refresh</i>
+            </div>
+            <div id="list-players-update" class="btn col s3 push-s4">
+                <span>Top Players</span>
+                <i class="material-icons tiny right" style="cursor: pointer">refresh</i>
+            </div>
+            <br>
+            <br>
+            <ul id="list-games" class="collection col s3 push-s2">
+                <li class="collection-item">
+                    <span style="color: skyblue">New Game</span>
+                    <i id="list-new-game" class="material-icons right" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
+                </li>
+                <li class="collection-item">
+                    Game 1
+                    <i class="material-icons right" style="cursor: pointer">play_circle_outline</i>
+                </li>
+                <li class="collection-item">
+                    Game 2
+                    <i class="material-icons right" style="cursor: pointer">play_circle_outline</i>
+                </li>
+            </ul>
+            <ul id="list-players" class="collection col s3 push-s4">
+            </ul>
         </div>
+        <div id="game" class="row" style="display: none">
+            <table id="game-grid" class="centered col s4 push-s3">
+                <tbody>
+                <tr>
+                    <td style="border-left: 1px solid black; border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black">0</td>
+                    <td style="border-top: 1px solid black; border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black">0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black; border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-right: 1px solid black; border-bottom: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black">0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black">0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black; border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-right: 1px solid black; border-bottom: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black">0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid black">0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td style="border-right: 1px solid black">0</td>
+                </tr>
+                <tr>
+                    <td style="border-bottom: 1px solid black; border-left: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black">0</td>
+                    <td style="border-bottom: 1px solid black; border-right: 1px solid black">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
     <script>
-        const state = document.getElementById("state");
+        const player = {
+            socket : io('http://localhost:3000', {transports: ['websocket'], upgrade: true}),
+            profile: {}
+        }
+        const gameState = {
+            games      : [],
+            players    : [],
+            playingGame: undefined,
+        }
+        const uiState = initState();
 
-        // Connect
+        /* ---------------------------------------------------------------------------------------------------------- */
 
-        const connect = document.getElementById("connect");
-        const connectButton = document.getElementById("connect-button");
-        const connectInput = document.getElementById("connect-input");
+        onServerErrors();
+        onServerUpdatePlayerList();
+        onServerUpdateGameList();
 
-        connect.style.display = "block";
+        onConnectButtonClick();
 
-        // Test
+        /* ---------------------------------------------------------------------------------------------------------- */
 
-        const test = document.getElementById("test");
+        function initState() {
+            const state = {
+                connect: {
+                    root  : document.getElementById("connect"),
+                    input : document.getElementById("connect-input"),
+                    button: document.getElementById("connect-button"),
+                },
+                list: {
+                    root               : document.getElementById("list"),
+                    games              : document.getElementById("list-games"),
+                    players            : document.getElementById("list-players"),
+                    updateGamesButton  : document.getElementById("list-games-update"),
+                    updatePlayersButton: document.getElementById("list-players-update"),
+                    newGameButton      : document.getElementById("list-new-game"),
+                },
+                game: {
+                    root: document.getElementById("game"),
+                    grid: document.getElementById("game-grid"),
+                },
+            }
 
-        test.style.display = "none";
+            state.connect.root.style.display = "block";
+            state.list.root.style.display = "none";
+            state.game.root.style.display = "none";
 
-        /////////////////////////////////////////////////////////////////////////////////////////
+            return state;
+        }
 
-        const socket = io('http://localhost:3000', {transports: ['websocket'], upgrade: true});
-        let player;
-
-        socket.on('errors', (data) => {
-            console.log(data);
-        });
-
-        connectButton.addEventListener("click", () => {
-            socket.emit('player:create', {nickname: connectInput.value}, function (playerData) {
-                player = playerData;
-                alert(`Welcome ${player.nickname}!`);
+        function onServerErrors() {
+            player.socket.on('errors', (error) => {
+                alert(error.message)
             });
+        }
 
-            connect.style.display = "none";
-            test.style.display = "block";
-        });
+        function onServerUpdatePlayerList() {
+            player.socket.on('player:update-list', (players) => {
+                gameState.players = players;
+                renderPlayerList();
+            });
+        }
+
+        function onServerUpdateGameList() {
+            player.socket.on('game:update-list', (games) => {
+                gameState.games = games;
+                renderGameList();
+            });
+        }
+
+        function onConnectButtonClick() {
+            uiState.connect.button.addEventListener("click", () => {
+                if (uiState.connect.input.value.length) {
+                    player.socket.emit('player:create', {nickname: uiState.connect.input.value}, profile => {
+                        player.profile = profile;
+
+                        player.socket.emit('player:list', {executorId: player.profile.id}, players => {
+                            gameState.players = players;
+                            renderPlayerList();
+                        });
+                        player.socket.emit('game:list', {executorId: player.profile.id}, games => {
+                            gameState.games = games;
+                            renderGameList();
+                        });
+
+                        uiState.connect.root.style.display = "none";
+                        uiState.list.root.style.display = "block";
+                        uiState.game.root.style.display = "none";
+
+                        alert(`Welcome ${player.profile.nickname}!`);
+                    });
+                }
+            });
+        }
+
+        function emitNewGameButtonClick() {
+            player.socket.emit('game:create', {executorId: player.profile.id}, game => {
+                gameState.playingGame = game;
+            });
+        }
+
+        /* ---------------------------------------------------------------------------------------------------------- */
+
+        function renderPlayerList() {
+            uiState.list.players.innerHTML = "";
+
+            gameState.players.forEach(player => {
+                const li = document.createElement('li');
+
+                li.className = "collection-item";
+                li.appendChild(document.createTextNode(player.nickname));
+
+                uiState.list.players.appendChild(li);
+            })
+        }
+
+        function renderGameList() {
+            uiState.list.games.innerHTML = `
+                <li class="collection-item">
+                    <span style="color: skyblue">New Game</span>
+                    <i id="list-new-game" class="material-icons right" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
+                </li>
+            `;
+
+            gameState.games.forEach(game => {
+                const li = document.createElement('li');
+                li.className = "collection-item";
+
+                const i = document.createElement("i");
+                i.className = "material-icons right";
+                i.style = "cursor: pointer";
+                i.innerText = "play_circle_outline"
+                i.id = game.id;
+
+                li.appendChild(document.createTextNode(game.id));
+                li.appendChild(i);
+
+                uiState.list.games.appendChild(li);
+            })
+
+        }
 
     </script>
 </body>

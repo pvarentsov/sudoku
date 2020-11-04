@@ -12,6 +12,7 @@ export class Game {
   constructor(grid: Cell[][]) {
     this._id     = v4();
     this._grid   = grid;
+    this._players = [];
     this._status = GameStatus.Waiting;
   }
 

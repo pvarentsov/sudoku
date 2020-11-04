@@ -27,31 +27,23 @@
             </div>
         </div>
         <div id="list" class="row" style="display: none">
-            <div id="list-games-update" class="btn col s3 push-s2">
+            <div id="list-games-update" class="btn col s5 push-s2">
                 <span>Games</span>
                 <i class="material-icons tiny right" style="cursor: pointer">refresh</i>
             </div>
-            <div id="list-players-update" class="btn col s3 push-s4">
+            <div id="list-players-update" class="btn col s2 push-s3">
                 <span>Top Players</span>
                 <i class="material-icons tiny right" style="cursor: pointer">refresh</i>
             </div>
             <br>
             <br>
-            <ul id="list-games" class="collection col s3 push-s2">
+            <ul id="list-games" class="collection col s5 push-s2">
                 <li class="collection-item">
-                    <span style="color: skyblue">New Game</span>
+                    <span class="input-field" style="color: skyblue">New Game</span>
                     <i id="list-new-game" class="material-icons right" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
                 </li>
-                <li class="collection-item">
-                    Game 1
-                    <i class="material-icons right" style="cursor: pointer">play_circle_outline</i>
-                </li>
-                <li class="collection-item">
-                    Game 2
-                    <i class="material-icons right" style="cursor: pointer">play_circle_outline</i>
-                </li>
             </ul>
-            <ul id="list-players" class="collection col s3 push-s4">
+            <ul id="list-players" class="collection col s2 push-s3">
             </ul>
         </div>
         <div id="game" class="row" style="display: none">
@@ -271,7 +263,8 @@
                 const li = document.createElement('li');
 
                 li.className = "collection-item";
-                li.appendChild(document.createTextNode(player.nickname));
+                li.style = "font-size: 8pt";
+                li.appendChild(document.createTextNode(`${player.nickname} - ${player.rating} rating`));
 
                 uiState.list.players.appendChild(li);
             })
@@ -295,7 +288,8 @@
                 i.innerText = "play_circle_outline"
                 i.id = game.id;
 
-                li.appendChild(document.createTextNode(game.id));
+                li.style = "font-size: 8pt";
+                li.appendChild(document.createTextNode(`${game.id} - ${game.players.length} players`));
                 li.appendChild(i);
 
                 uiState.list.games.appendChild(li);

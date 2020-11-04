@@ -27,7 +27,9 @@ export class InMemoryGameStoreAdapter implements IGameStore {
   }
 
   public async findGames(filter: {status?: GameStatus}): Promise<Game[]> {
-    let games: Game[] = Array.from(this.store.values());
+    let games: Game[] = Array
+      .from(this.store.values())
+      .sort((left, right) => right.players.length - left.players.length);
 
     if (filter.status) {
       games = games.filter(game => game.status === filter.status);

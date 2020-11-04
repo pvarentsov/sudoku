@@ -266,14 +266,14 @@
 
                 const p = document.createElement("p");
                 p.style = "text-align:left; font-size: 8pt"
-                p.innerText = player.nickname;
+                p.innerText = player.rating;
 
                 const span = document.createElement("span");
-                span.style = "float:right; font-size: 6pt"
-                span.innerText = player.rating;
+                span.style = "float:right; font-size: 8pt"
+                span.innerText = player.nickname;
 
                 const starI = document.createElement("i");
-                starI.className = "material-icons right";
+                starI.className = "material-icons left";
                 starI.innerText = "star";
 
                 p.appendChild(span);
@@ -299,14 +299,14 @@
 
                 const p = document.createElement("p");
                 p.style = "text-align:left; font-size: 8pt"
-                p.innerText = game.id;
+                p.innerText = game.players.length;
 
                 const span = document.createElement("span");
-                span.style = "float:right; font-size: 6pt"
-                span.innerText = game.players.length;
+                span.style = "float:right; font-size: 8pt"
+                span.innerText = game.id;
 
                 const starI = document.createElement("i");
-                starI.className = "material-icons right";
+                starI.className = "material-icons left";
                 starI.style = "cursor: pointer";
                 starI.innerText = "play_circle_outline"
                 starI.id = game.id;

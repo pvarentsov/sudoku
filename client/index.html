@@ -40,7 +40,7 @@
             <ul id="list-games" class="collection col s5 push-s2">
                 <li class="collection-item">
                     <span class="input-field" style="color: skyblue">New Game</span>
-                    <i id="list-new-game" class="material-icons right" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
+                    <i id="list-new-game" class="material-icons left" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
                 </li>
             </ul>
             <ul id="list-players" class="collection col s2 push-s3">
@@ -263,8 +263,23 @@
                 const li = document.createElement('li');
 
                 li.className = "collection-item";
-                li.style = "font-size: 8pt";
-                li.appendChild(document.createTextNode(`${player.nickname} - ${player.rating} rating`));
+
+                const p = document.createElement("p");
+                p.style = "text-align:left; font-size: 8pt"
+                p.innerText = player.nickname;
+
+                const span = document.createElement("span");
+                span.style = "float:right; font-size: 6pt"
+                span.innerText = player.rating;
+
+                const starI = document.createElement("i");
+                starI.className = "material-icons right";
+                starI.innerText = "star";
+
+                p.appendChild(span);
+                p.appendChild(starI);
+
+                li.appendChild(p);
 
                 uiState.list.players.appendChild(li);
             })
@@ -274,7 +289,7 @@
             uiState.list.games.innerHTML = `
                 <li class="collection-item">
                     <span style="color: skyblue">New Game</span>
-                    <i id="list-new-game" class="material-icons right" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
+                    <i id="list-new-game" class="material-icons left" style="cursor: pointer" onclick="emitNewGameButtonClick()">add_circle_outline</i>
                 </li>
             `;
 
@@ -282,15 +297,24 @@
                 const li = document.createElement('li');
                 li.className = "collection-item";
 
-                const i = document.createElement("i");
-                i.className = "material-icons right";
-                i.style = "cursor: pointer";
-                i.innerText = "play_circle_outline"
-                i.id = game.id;
+                const p = document.createElement("p");
+                p.style = "text-align:left; font-size: 8pt"
+                p.innerText = game.id;
 
-                li.style = "font-size: 8pt";
-                li.appendChild(document.createTextNode(`${game.id} - ${game.players.length} players`));
-                li.appendChild(i);
+                const span = document.createElement("span");
+                span.style = "float:right; font-size: 6pt"
+                span.innerText = game.players.length;
+
+                const starI = document.createElement("i");
+                starI.className = "material-icons right";
+                starI.style = "cursor: pointer";
+                starI.innerText = "play_circle_outline"
+                starI.id = game.id;
+
+                p.appendChild(span);
+                p.appendChild(starI);
+
+                li.appendChild(p);
 
                 uiState.list.games.appendChild(li);
             })

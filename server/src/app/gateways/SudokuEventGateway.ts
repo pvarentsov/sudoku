@@ -7,7 +7,7 @@ import {
   InputCreateNewGameDTO,
   InputCreatePlayerDTO, InputJoinPlayerGameDTO,
   InputListGamesDTO,
-  InputListPlayersDTO,
+  InputListPlayersDTO, InputPlayGameDTO,
   IService,
   OutputGameDTO,
   OutputPlayerDTO
@@ -30,6 +30,9 @@ export class SudokuEventGateway {
 
     @Inject(CoreDITokens.JoinPlayerGameService)
     private readonly joinPlayerGameService: IService<InputJoinPlayerGameDTO, OutputGameDTO>,
+
+    @Inject(CoreDITokens.PlayGameService)
+    private readonly playGameService: IService<InputPlayGameDTO, OutputGameDTO>,
 
     @Inject(CoreDITokens.ListGamesService)
     private readonly listGamesService: IService<InputListGamesDTO, OutputGameDTO[]>,
@@ -56,6 +59,21 @@ export class SudokuEventGateway {
   public async joinPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.joinPlayerGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
+
+    this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
+
+    socket.emit('game:update-list', games);
+    socket.broadcast.emit('game:update-list', games);
+
+    return game;
+  }
+
+  @SubscribeMessage('game:play')
+  public async playGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputPlayGameDTO): Promise<OutputGameDTO> {
+    const game: OutputGameDTO = await this.playGameService.execute(input);
+    const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
+
+    this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
 
     socket.emit('game:update-list', games);
     socket.broadcast.emit('game:update-list', games);

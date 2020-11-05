@@ -31,7 +31,7 @@ export class InMemoryGameStoreAdapter implements IGameStore {
       .from(this.store.values())
       .sort((left, right) => right.players.length - left.players.length);
 
-    if (filter.status) {
+    if (filter.status !== undefined) {
       games = games.filter(game => game.status === filter.status);
     }
 

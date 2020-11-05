@@ -5,7 +5,7 @@ import { SocketPlayerManager } from '@sudoku/app/gateways/socket-manager/SocketP
 import { CoreDITokens } from '@sudoku/core/common';
 import {
   InputCreateNewGameDTO,
-  InputCreatePlayerDTO,
+  InputCreatePlayerDTO, InputJoinPlayerGameDTO,
   InputListGamesDTO,
   InputListPlayersDTO,
   IService,
@@ -28,6 +28,9 @@ export class SudokuEventGateway {
     @Inject(CoreDITokens.CreateNewGameService)
     private readonly createNewGameService: IService<InputCreateNewGameDTO, OutputGameDTO>,
 
+    @Inject(CoreDITokens.JoinPlayerGameService)
+    private readonly joinPlayerGameService: IService<InputJoinPlayerGameDTO, OutputGameDTO>,
+
     @Inject(CoreDITokens.ListGamesService)
     private readonly listGamesService: IService<InputListGamesDTO, OutputGameDTO[]>,
 
@@ -41,8 +44,19 @@ export class SudokuEventGateway {
   @SubscribeMessage('game:create')
   public async createGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.createNewGameService.execute(input);
-
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
+
+    socket.emit('game:update-list', games);
+    socket.broadcast.emit('game:update-list', games);
+
+    return game;
+  }
+
+  @SubscribeMessage('game:join-player')
+  public async joinPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
+    const game: OutputGameDTO = await this.joinPlayerGameService.execute(input);
+    const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
+
     socket.emit('game:update-list', games);
     socket.broadcast.emit('game:update-list', games);
 
@@ -57,9 +71,11 @@ export class SudokuEventGateway {
   @SubscribeMessage('player:create')
   public async createPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreatePlayerDTO): Promise<OutputPlayerDTO> {
     const player: OutputPlayerDTO = await this.createPlayerService.execute(input);
+    const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: player.id});
+
     this.socketPlayerManager.addPlayerSocket(player.id, socket);
 
-    const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: player.id});
+    socket.emit('player:update-list', players);
     socket.broadcast.emit('player:update-list', players);
 
     return player;

@@ -5,7 +5,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 
@@ -170,7 +169,7 @@
   /* ---------------------------------------------------------------------------------------------------------- */
 
   const player = {
-    socket: io('http://localhost:3000', {transports: ['websocket'], upgrade: true}),
+    socket: io("http://localhost:3000", {transports: ["websocket"], upgrade: true}),
     profile: {}
   }
   const gameState = {
@@ -219,20 +218,20 @@
   /* ---------------------------------------------------------------------------------------------------------- */
 
   function onServerErrors() {
-    player.socket.on('errors', (error) => {
+    player.socket.on("errors", (error) => {
       alert(error.message)
     });
   }
 
   function onServerUpdatePlayerList() {
-    player.socket.on('player:update-list', (players) => {
+    player.socket.on("player:update-list", (players) => {
       gameState.players = players;
       renderPlayerList();
     });
   }
 
   function onServerUpdateGameList() {
-    player.socket.on('game:update-list', (games) => {
+    player.socket.on("game:update-list", (games) => {
       gameState.games = games;
       renderGameList();
     });
@@ -241,14 +240,14 @@
   function onConnectButtonClick() {
     uiState.connect.button.addEventListener("click", () => {
       if (uiState.connect.input.value.length) {
-        player.socket.emit('player:create', {nickname: uiState.connect.input.value}, profile => {
+        player.socket.emit("player:create", {nickname: uiState.connect.input.value}, profile => {
           player.profile = profile;
 
-          player.socket.emit('player:list', {executorId: player.profile.id}, players => {
+          player.socket.emit("player:list", {executorId: player.profile.id}, players => {
             gameState.players = players;
             renderPlayerList();
           });
-          player.socket.emit('game:list', {executorId: player.profile.id}, games => {
+          player.socket.emit("game:list", {executorId: player.profile.id}, games => {
             gameState.games = games;
             renderGameList();
           });
@@ -264,13 +263,13 @@
   /* ---------------------------------------------------------------------------------------------------------- */
 
   function createNewGame() {
-    player.socket.emit('game:create', {executorId: player.profile.id}, game => {
+    player.socket.emit("game:create", {executorId: player.profile.id}, game => {
       gameState.playingGame = game;
     });
   }
 
   function joinPlayerToGame(gameId) {
-    player.socket.emit('game:join-player', {executorId: player.profile.id, gameId: gameId}, game => {
+    player.socket.emit("game:join-player", {executorId: player.profile.id, gameId: gameId}, game => {
       gameState.playingGame = game;
     });
   }
@@ -295,7 +294,7 @@
     uiState.list.players.innerHTML = "";
 
     gameState.players.forEach(player => {
-      const li = document.createElement('li');
+      const li = document.createElement("li");
 
       li.className = "collection-item";
 
@@ -331,7 +330,7 @@
     `;
 
     gameState.games.forEach(game => {
-      const li = document.createElement('li');
+      const li = document.createElement("li");
       li.className = "collection-item";
 
       const p = document.createElement("p");

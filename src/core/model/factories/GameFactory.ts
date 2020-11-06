@@ -1,5 +1,5 @@
 import { ArrayUtil } from '@sudoku/core/common';
-import { Cell, Game } from '@sudoku/core/model';
+import { Cell, Coordinate, Game } from '@sudoku/core/model';
 
 export class GameFactory {
 
@@ -12,7 +12,7 @@ export class GameFactory {
 
   private static createGrid(): Cell[][] {
     const plainGrid: number[][] = GameFactory.generatePlainGrid();
-    const grid: Cell[][] = plainGrid.map(row => row.map(value => new Cell(value, value)));
+    const grid: Cell[][] = plainGrid.map((row, r) => row.map((value, c) => new Cell(value, value, new Coordinate(r, c))));
 
     return grid;
   }

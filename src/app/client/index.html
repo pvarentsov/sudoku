@@ -228,9 +228,16 @@
   /* ---------------------------------------------------------------------------------------------------------- */
 
   function onServerErrors() {
-    player.socket.on("errors", (error) => {
+    player.socket.on("errors:common", (error) => {
       alert(error.message)
     });
+
+    player.socket.on("errors:incorrect-value", (error) => {
+      const tdElement = document.getElementById(`game-grid-r${error.rowIndex}c${error.columnIndex}`);
+      tdElement.innerHTML = "-";
+      tdElement.blur();
+    });
+
   }
 
   function onServerUpdatePlayerList() {
@@ -254,8 +261,20 @@
       renderPlayingGamePlayers();
 
       if (game.status === 1) {
-        renderPlayingGameGoodLuckButton();
-        renderPlayingGameGrid();
+        if (game.winner) {
+          renderPlayingGamePlayButton();
+          renderPlayingGameInitGrid();
+
+          gameState.playingGame = undefined;
+
+          switchStateToList();
+
+          alert(`${game.winner._nickname} win!`);
+        }
+        else {
+          renderPlayingGameGoodLuckButton();
+          renderPlayingGameGrid();
+        }
       }
     });
   }
@@ -312,6 +331,16 @@
     });
   }
 
+  function enterValueGame(gameId, value, rowIndex, columnIndex) {
+    player.socket.emit("game:enter-value", {
+      executorId: player.profile.id,
+      gameId: gameId,
+      value: value,
+      rowIndex: rowIndex,
+      columnIndex: columnIndex
+    });
+  }
+
   /* ---------------------------------------------------------------------------------------------------------- */
 
   function switchStateToList() {
@@ -338,22 +367,50 @@
     uiState.game.playButton.disabled = false;
   }
 
+  function renderPlayingGameInitGrid() {
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        const tdElement = document.getElementById(`game-grid-r${r}c${c}`);
+
+        tdElement.contentEditable = false;
+        tdElement.innerHTML = "-";
+        tdElement.style.backgroundColor = "white";
+      }
+    }
+  }
+
   function renderPlayingGameGrid() {
     const grid = gameState.playingGame.grid;
 
     for (let r = 0; r < 9; r++) {
       for (let c = 0; c < 9; c++) {
         const tdElement = document.getElementById(`game-grid-r${r}c${c}`);
+        tdElement.blur();
         const cell = grid[r][c];
 
         if (cell._enteredValue) {
           tdElement.contentEditable = false;
           tdElement.innerHTML = cell._enteredValue;
-          tdElement.style.backgroundColor = undefined;
+          tdElement.style.backgroundColor = "white";
         }
         else {
           tdElement.contentEditable = true;
           tdElement.style.backgroundColor = "#D5F5E3";
+
+          tdElement.onclick = () => {
+            tdElement.innerHTML = "";
+          }
+
+          tdElement.oninput = () => {
+            const enteredStr = tdElement.innerHTML;
+            const value = Number(enteredStr);
+
+            if (enteredStr.length === 1 && !isNaN(value) && value <= 9 && value >= 1) {
+              enterValueGame(gameState.playingGame.id, value, r, c);
+            } else {
+              tdElement.innerHTML = "-";
+            }
+          }
         }
       }
     }

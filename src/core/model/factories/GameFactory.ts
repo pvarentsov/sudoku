@@ -34,10 +34,10 @@ export class GameFactory {
 
   private static randomClearGrid(grid: Cell[][]): void {
     for (const row of grid) {
-      const clearColumnNumber: number = 4;
+      const clearColumnNumber: number = 3;
 
       const clearColumnIndexes: number[] = ArrayUtil
-        .generateSequence(0, 8, {shuffle: true})
+        .generateSequence(0, 9, {shuffle: true})
         .slice(0, clearColumnNumber);
 
       clearColumnIndexes.forEach(columnIndex => row[columnIndex].clear());

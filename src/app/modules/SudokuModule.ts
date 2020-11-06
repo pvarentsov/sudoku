@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { InMemoryGameStoreAdapter, InMemoryPlayerStoreAdapter } from '@sudoku/adapter';
 import { SocketPlayerManager } from '@sudoku/app/gateways/socket-manager/SocketPlayerManager';
 import { SudokuEventGateway } from '@sudoku/app/gateways/SudokuEventGateway';
@@ -13,8 +14,14 @@ import {
   PlayGameService,
   RemovePlayerService
 } from '@sudoku/core/service';
+import { join } from 'path';
 
 @Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
+  ],
   providers: [
 
     // Gateways

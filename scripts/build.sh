@@ -18,6 +18,7 @@ tsc() {
 }
 
 copy() {
+    cp -r ./src/app/client ./dist/app/client
     cp ./package.json ./dist/package.json
     cp ./package-lock.json ./dist/package-lock.json
 }

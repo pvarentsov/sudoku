@@ -179,7 +179,7 @@
   /* ---------------------------------------------------------------------------------------------------------- */
 
   const player = {
-    socket: io("http://localhost:3000", {transports: ["websocket"], upgrade: true}),
+    socket: io({transports: ["websocket"], upgrade: true}),
     profile: {}
   }
   const gameState = {

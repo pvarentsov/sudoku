@@ -12,12 +12,12 @@ export class PlayGameService implements IService<InputPlayGameDTO, OutputGameDTO
   public async execute(input: InputPlayGameDTO): Promise<OutputGameDTO> {
     const game: Game = AssertUtil.notEmpty(
       await this.gameStore.findGame({id: input.gameId}),
-      new CoreError('Game not joined.')
+      new CoreError('Game not found.')
     );
 
     AssertUtil.notEmpty(
       game.players.find(player => input.executorId === player.id),
-      new CoreError('Player not joined.')
+      new CoreError('Player not joined to game.')
     );
 
     await this.gameStore.updateGame(game.play());

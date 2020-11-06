@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { InMemoryGameStoreAdapter, InMemoryPlayerStoreAdapter } from '@sudoku/adapter';
-import { SocketPlayerManager } from '@sudoku/app/gateways/socket-manager/SocketPlayerManager';
-import { SudokuEventGateway } from '@sudoku/app/gateways/SudokuEventGateway';
+import { SocketPlayerManager } from '@sudoku/app/server/gateways/socket-manager/SocketPlayerManager';
+import { SudokuEventGateway } from '@sudoku/app/server/gateways/SudokuEventGateway';
 import { CoreDITokens } from '@sudoku/core/common';
 import {
   CreateNewGameService,
@@ -19,7 +19,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '../..', 'client'),
     }),
   ],
   providers: [

@@ -1,13 +1,15 @@
 import { Inject, UseFilters } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { SudokuExceptionFilter } from '@sudoku/app/gateways/exception-handler/SudokuExceptionFilter';
-import { SocketPlayerManager } from '@sudoku/app/gateways/socket-manager/SocketPlayerManager';
+import { SudokuExceptionFilter } from '@sudoku/app/server/gateways/exception-handler/SudokuExceptionFilter';
+import { SocketPlayerManager } from '@sudoku/app/server/gateways/socket-manager/SocketPlayerManager';
 import { CoreDITokens } from '@sudoku/core/common';
 import {
   InputCreateNewGameDTO,
-  InputCreatePlayerDTO, InputJoinPlayerGameDTO,
+  InputCreatePlayerDTO,
+  InputJoinPlayerGameDTO,
   InputListGamesDTO,
-  InputListPlayersDTO, InputPlayGameDTO,
+  InputListPlayersDTO,
+  InputPlayGameDTO,
   IService,
   OutputGameDTO,
   OutputPlayerDTO

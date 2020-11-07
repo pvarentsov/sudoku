@@ -6,7 +6,7 @@ export class Game {
 
   private readonly _id: string;
   private readonly _grid: Cell[][];
-  private readonly _players: Player[];
+  private _players: Player[];
   private _status: GameStatus;
 
   constructor(grid: Cell[][]) {
@@ -38,6 +38,11 @@ export class Game {
 
   public get plainEnteredGrid(): number[][] {
     return this._grid.map(row => row.map(cell => cell.enteredValue || 0));
+  }
+
+  public removePlayer(playerId: string): Game {
+    this._players = this._players.filter(player => player.id !== playerId);
+    return this;
   }
 
   public play(): Game {

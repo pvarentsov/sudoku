@@ -82,8 +82,8 @@ import { join } from 'path';
     },
     {
       provide: CoreDITokens.RemovePlayerService,
-      useFactory: (playerStore) => new RemovePlayerService(playerStore),
-      inject: [CoreDITokens.PlayerStore]
+      useFactory: (playerStore, gameStore) => new RemovePlayerService(playerStore, gameStore),
+      inject: [CoreDITokens.PlayerStore, CoreDITokens.GameStore]
     },
   ],
 })

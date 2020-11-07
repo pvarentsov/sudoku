@@ -1,8 +1,8 @@
 import { Inject, UseFilters } from '@nestjs/common';
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { SudokuExceptionFilter } from '@sudoku/app/server/gateways/exception-handler/SudokuExceptionFilter';
 import { SocketPlayerManager } from '@sudoku/app/server/gateways/socket-manager/SocketPlayerManager';
-import { CoreDITokens } from '@sudoku/core/common';
+import { CoreDITokens, Optional } from '@sudoku/core/common';
 import {
   InputCreateNewGameDTO,
   InputCreatePlayerDTO,
@@ -11,6 +11,7 @@ import {
   InputListGamesDTO,
   InputListPlayersDTO,
   InputPlayGameDTO,
+  InputRemovePlayerDTO,
   IService,
   OutputGameDTO,
   OutputPlayerDTO
@@ -19,7 +20,7 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
 @UseFilters(SudokuExceptionFilter)
-export class SudokuEventGateway {
+export class SudokuEventGateway implements OnGatewayDisconnect {
 
   @WebSocketServer()
   private readonly socketServer: Server;
@@ -48,7 +49,25 @@ export class SudokuEventGateway {
 
     @Inject(CoreDITokens.ListPlayersService)
     private readonly listPlayersService: IService<InputListPlayersDTO, OutputPlayerDTO[]>,
+
+    @Inject(CoreDITokens.RemovePlayerService)
+    private readonly removePlayerService: IService<InputRemovePlayerDTO, void>,
   ) {}
+
+  public async handleDisconnect(@ConnectedSocket() socket: Socket): Promise<void> {
+    const playerId: Optional<string> = this.socketPlayerManager.getPlayerId(socket);
+
+    if (playerId) {
+      this.socketPlayerManager.removePlayer(playerId);
+      await this.removePlayerService.execute({id: playerId});
+
+      const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: playerId});
+      const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: playerId});
+
+      socket.broadcast.emit('game:update-list', games);
+      socket.broadcast.emit('player:update-list', players);
+    }
+  }
   
   @SubscribeMessage('game:create')
   public async createGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {

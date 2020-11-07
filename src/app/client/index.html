@@ -189,6 +189,8 @@
   }
   const uiState = initUIState();
 
+  onWindowClose();
+
   onServerErrors();
   onServerUpdatePlayerList();
   onServerUpdateGameList();
@@ -226,6 +228,10 @@
   }
 
   /* ---------------------------------------------------------------------------------------------------------- */
+
+  function onWindowClose() {
+    window.onbeforeunload = () => player.socket.emit("disconnect");
+  }
 
   function onServerErrors() {
     player.socket.on("errors:common", (error) => {

@@ -26,13 +26,16 @@ export class InMemoryGameStoreAdapter implements IGameStore {
       .find(game => game.id === filter.id);
   }
 
-  public async findGames(filter: {status?: GameStatus}): Promise<Game[]> {
+  public async findGames(filter: {status?: GameStatus, playerId?: string}): Promise<Game[]> {
     let games: Game[] = Array
       .from(this.store.values())
       .sort((left, right) => right.players.length - left.players.length);
 
     if (filter.status !== undefined) {
       games = games.filter(game => game.status === filter.status);
+    }
+    if (filter.playerId !== undefined) {
+      games = games.filter(game => game.players.find(player => player.id === filter.playerId));
     }
 
     return games;

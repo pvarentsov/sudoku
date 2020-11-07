@@ -26,4 +26,26 @@ export class SocketPlayerManager {
     }
   }
 
+  public getPlayerId(socket: Socket): Optional<string> {
+    let resultPlayerId: Optional<string>;
+
+    const playerIds: string[] = Array.from(this.playerSockets.keys());
+
+    for (const playerId of playerIds) {
+      const doesPlayerHaveSocket: boolean = !! this.playerSockets
+        .get(playerId)
+        ?.find(playerSocket => playerSocket.id === socket.id);
+
+      if (doesPlayerHaveSocket) {
+        resultPlayerId = playerId;
+      }
+    }
+
+    return resultPlayerId;
+  }
+
+  public removePlayer(playerId: string): void {
+    this.playerSockets.delete(playerId);
+  }
+
 }

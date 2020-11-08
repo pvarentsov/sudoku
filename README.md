@@ -8,10 +8,16 @@ A Concurrent Sudoku
 1. **Build**
     * Install libs - `npm install`
     * Build app - `npm run build`
-2. **Run**  
+2. **Lint**
+    * `npm run lint`
+    * `npm run lint:fix`
+3. **Libs**
+    * Show new versions - `npm run lib:check`
+    * Upgrade libs' versions - `npm run lib:upgrade`
+4. **Run**  
     * Start app - `npm run start`
-    * Expose [local.env](env/local.env) and start app - `npm run start:local`  
-3. **Play**  
+    * Expose [local.env](env/local.env) and start app - `npm run start:local`
+5. **Play**  
     * Browse `localhost:[app port]`
     * Chrome is preferred
 

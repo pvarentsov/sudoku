@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, Logger } from '@nestjs/common';
 import { BaseWsExceptionFilter } from '@nestjs/websockets';
-import { CellValueError } from '@sudoku/core/common/errors/CellValueError';
+import { CellValueError } from '@sudoku/core/common';
 import { Socket } from 'socket.io';
 
 @Catch()

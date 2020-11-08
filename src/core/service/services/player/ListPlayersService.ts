@@ -1,6 +1,5 @@
 import { Player } from '@sudoku/core/model';
-import { IService, OutputPlayerDTO } from '@sudoku/core/service';
-import { InputListPlayersDTO } from '@sudoku/core/service/services/player/dto/InputListPlayersDTO';
+import { InputListPlayersDTO, IService, OutputPlayerDTO } from '@sudoku/core/service';
 import { IPlayerStore } from '@sudoku/core/store';
 
 export class ListPlayersService implements IService<InputListPlayersDTO, OutputPlayerDTO[]> {

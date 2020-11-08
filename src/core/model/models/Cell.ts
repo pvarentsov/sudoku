@@ -1,5 +1,4 @@
-import { AssertUtil, Nullable } from '@sudoku/core/common';
-import { CellValueError } from '@sudoku/core/common/errors/CellValueError';
+import { AssertUtil, CellValueError, Nullable } from '@sudoku/core/common';
 import { Coordinate, Player } from '@sudoku/core/model';
 
 export class Cell {

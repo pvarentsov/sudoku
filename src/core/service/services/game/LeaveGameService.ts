@@ -1,7 +1,6 @@
 import { AssertUtil, CoreError } from '@sudoku/core/common';
 import { Game, Player } from '@sudoku/core/model';
-import { IService, OutputGameDTO } from '@sudoku/core/service';
-import { InputLeaveGameDTO } from '@sudoku/core/service/services/game/dto/InputLeaveGameDTO';
+import { InputLeaveGameDTO, IService, OutputGameDTO } from '@sudoku/core/service';
 import { IGameStore, IPlayerStore } from '@sudoku/core/store';
 
 export class LeaveGameService implements IService<InputLeaveGameDTO, OutputGameDTO> {

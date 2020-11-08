@@ -1,6 +1,5 @@
 import { Game, GameStatus } from '@sudoku/core/model';
-import { IService, OutputGameDTO } from '@sudoku/core/service';
-import { InputListGamesDTO } from '@sudoku/core/service/services/game/dto/InputListGamesDTO';
+import { InputListGamesDTO, IService, OutputGameDTO } from '@sudoku/core/service';
 import { IGameStore } from '@sudoku/core/store';
 
 export class ListGamesService implements IService<InputListGamesDTO, OutputGameDTO[]> {

@@ -23,7 +23,7 @@ A Concurrent Sudoku
 
 <details>
   <summary>
-    Screencast
+    <b>Screencast</b>
   </summary>
     <br>
     <img src="./asset/how-to-screencast.gif">
@@ -39,7 +39,7 @@ A Concurrent Sudoku
 
 <details>
   <summary>
-    Screencast
+    <b>Screencast</b>
   </summary>
     <br>
     <img src="./asset/ngrok-screencast.gif">

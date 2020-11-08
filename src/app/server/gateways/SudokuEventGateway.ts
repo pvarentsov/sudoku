@@ -1,4 +1,4 @@
-import { Inject, UseFilters } from '@nestjs/common';
+import { Inject, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { GatewayEvents } from '@sudoku/app/server/gateways/events/GatewayEvents';
 import { SudokuExceptionFilter } from '@sudoku/app/server/gateways/exception-handler/SudokuExceptionFilter';
@@ -73,7 +73,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
       socket.broadcast.emit(GatewayEvents.Player.List, players);
     }
   }
-  
+
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.Create)
   public async createGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.createNewGameService.execute(input);
@@ -85,6 +86,7 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return game;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.JoinPlayer)
   public async joinPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.joinPlayerGameService.execute(input);
@@ -98,6 +100,7 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return game;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.Play)
   public async playGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputPlayGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.playGameService.execute(input);
@@ -111,6 +114,7 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return game;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.Leave)
   public async leaveGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputLeaveGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.leaveGameService.execute(input);
@@ -128,6 +132,7 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return game;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.EnterValue)
   public async enterValueGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputEnterValueGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.enterValueGameService.execute(input);
@@ -147,11 +152,13 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return game;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Game.List)
   public async listGames(client: Socket, @MessageBody() input: InputListGamesDTO): Promise<OutputGameDTO[]> {
     return this.listGamesService.execute(input);
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Player.Create)
   public async createPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreatePlayerDTO): Promise<OutputPlayerDTO> {
     const player: OutputPlayerDTO = await this.createPlayerService.execute(input);
@@ -165,6 +172,7 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     return player;
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage(GatewayEvents.Player.List)
   public async listPlayers(@ConnectedSocket() socket: Socket, @MessageBody() input: InputListPlayersDTO): Promise<OutputPlayerDTO[]> {
     return this.listPlayersService.execute(input);

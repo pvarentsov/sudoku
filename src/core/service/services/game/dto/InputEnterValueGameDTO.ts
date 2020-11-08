@@ -9,12 +9,12 @@ export class InputEnterValueGameDTO {
   public gameId: string;
 
   @IsNumber()
-  @Max(80)
+  @Max(8)
   @Min(0)
   public rowIndex: number;
 
   @IsNumber()
-  @Max(80)
+  @Max(8)
   @Min(0)
   public columnIndex: number;
 

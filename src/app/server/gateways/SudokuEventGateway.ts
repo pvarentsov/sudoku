@@ -8,6 +8,7 @@ import {
   InputCreatePlayerDTO,
   InputEnterValueGameDTO,
   InputJoinPlayerGameDTO,
+  InputLeaveGameDTO,
   InputListGamesDTO,
   InputListPlayersDTO,
   InputPlayGameDTO,
@@ -40,6 +41,9 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
 
     @Inject(CoreDITokens.EnterValueGameService)
     private readonly enterValueGameService: IService<InputEnterValueGameDTO, OutputGameDTO>,
+
+    @Inject(CoreDITokens.LeaveGameService)
+    private readonly leaveGameService: IService<InputLeaveGameDTO, OutputGameDTO>,
 
     @Inject(CoreDITokens.ListGamesService)
     private readonly listGamesService: IService<InputListGamesDTO, OutputGameDTO[]>,
@@ -99,6 +103,23 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
 
     this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
+
+    socket.emit('game:update-list', games);
+    socket.broadcast.emit('game:update-list', games);
+
+    return game;
+  }
+
+  @SubscribeMessage('game:leave')
+  public async leaveGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputLeaveGameDTO): Promise<OutputGameDTO> {
+    const game: OutputGameDTO = await this.leaveGameService.execute(input);
+    const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
+
+    const playerIdsExceptExecutor: string[] = game.players
+      .map(player => player.id)
+      .filter(id => id !== input.executorId);
+
+    this.socketPlayerManager.sendMessageToPlayers('game:play', game, playerIdsExceptExecutor);
 
     socket.emit('game:update-list', games);
     socket.broadcast.emit('game:update-list', games);

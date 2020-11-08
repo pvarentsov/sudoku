@@ -8,7 +8,7 @@ import {
   CreateNewGameService,
   CreatePlayerService,
   EnterValueGameService,
-  JoinPlayerGameService,
+  JoinPlayerGameService, LeaveGameService,
   ListGamesService,
   ListPlayersService,
   PlayGameService,
@@ -55,6 +55,11 @@ import { join } from 'path';
     {
       provide: CoreDITokens.JoinPlayerGameService,
       useFactory: (playerStore, gameStore) => new JoinPlayerGameService(playerStore, gameStore),
+      inject: [CoreDITokens.PlayerStore, CoreDITokens.GameStore]
+    },
+    {
+      provide: CoreDITokens.LeaveGameService,
+      useFactory: (playerStore, gameStore) => new LeaveGameService(playerStore, gameStore),
       inject: [CoreDITokens.PlayerStore, CoreDITokens.GameStore]
     },
     {

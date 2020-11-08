@@ -197,7 +197,7 @@
   onServerUpdatePlayingGame();
 
   onConnectButtonClick();
-  onGamePlayButtonClick();
+  onGamePlayOrLeaveButtonClick();
 
   /* ---------------------------------------------------------------------------------------------------------- */
 
@@ -219,7 +219,7 @@
       game: {
         root: document.getElementById("game"),
         grid: document.getElementById("game-grid"),
-        playButton: document.getElementById("game-play"),
+        playOrLeaveButton: document.getElementById("game-play"),
         players: document.getElementById("game-players"),
       },
     }
@@ -278,7 +278,7 @@
           alert(`${game.winner._nickname} win!`);
         }
         else {
-          renderPlayingGameGoodLuckButton();
+          renderPlayingGameLeaveButton();
           renderPlayingGameGrid();
         }
       }
@@ -308,14 +308,29 @@
     });
   }
 
-  function onGamePlayButtonClick() {
-    uiState.game.playButton.addEventListener("click", () => {
-      player.socket.emit("game:play", {executorId: player.profile.id, gameId: gameState.playingGame.id}, game => {
-        gameState.playingGame = game;
+  function onGamePlayOrLeaveButtonClick() {
+    uiState.game.playOrLeaveButton.addEventListener("click", () => {
+      if (gameState.playingGame.status === 0) {
+        player.socket.emit("game:play", {executorId: player.profile.id, gameId: gameState.playingGame.id}, game => {
+          gameState.playingGame = game;
 
-        renderPlayingGameGoodLuckButton();
-        renderPlayingGamePlayers();
-      });
+          renderPlayingGameLeaveButton();
+          renderPlayingGamePlayers();
+        });
+      }
+      else {
+        player.socket.emit("game:leave", {executorId: player.profile.id, gameId: gameState.playingGame.id}, game => {
+          gameState.playingGame = undefined;
+
+          renderPlayerList();
+          renderGameList();
+
+          renderPlayingGamePlayButton();
+          renderPlayingGameInitGrid();
+
+          switchStateToList();
+        });
+      }
     });
   }
 
@@ -363,14 +378,14 @@
 
   /* ---------------------------------------------------------------------------------------------------------- */
 
-  function renderPlayingGameGoodLuckButton() {
-    uiState.game.playButton.innerText = "Good luck!";
-    uiState.game.playButton.disabled = true;
+  function renderPlayingGameLeaveButton() {
+    uiState.game.playOrLeaveButton.innerText = "LEAVE";
+    uiState.game.playOrLeaveButton.disabled = false;
   }
 
   function renderPlayingGamePlayButton() {
-    uiState.game.playButton.innerText = "Play";
-    uiState.game.playButton.disabled = false;
+    uiState.game.playOrLeaveButton.innerText = "Play";
+    uiState.game.playOrLeaveButton.disabled = false;
   }
 
   function renderPlayingGameInitGrid() {

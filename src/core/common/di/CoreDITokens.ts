@@ -5,6 +5,7 @@ export class CoreDITokens {
   static CreateNewGameService: string = 'CreateNewGameService';
   static EnterValueGameService: string = 'EnterValueGameService';
   static JoinPlayerGameService: string = 'JoinPlayerGameService';
+  static LeaveGameService: string = 'LeaveGameService';
   static ListGamesService: string = 'ListGamesService';
   static PlayGameService: string = 'PlayGameService';
 

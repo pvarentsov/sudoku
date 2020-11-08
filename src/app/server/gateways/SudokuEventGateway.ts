@@ -1,5 +1,6 @@
 import { Inject, UseFilters } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { GatewayEvents } from '@sudoku/app/server/gateways/events/GatewayEvents';
 import { SudokuExceptionFilter } from '@sudoku/app/server/gateways/exception-handler/SudokuExceptionFilter';
 import { SocketPlayerManager } from '@sudoku/app/server/gateways/socket-manager/SocketPlayerManager';
 import { CoreDITokens, Optional } from '@sudoku/core/common';
@@ -68,49 +69,49 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
       const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: playerId});
       const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: playerId});
 
-      socket.broadcast.emit('game:update-list', games);
-      socket.broadcast.emit('player:update-list', players);
+      socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+      socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
     }
   }
   
-  @SubscribeMessage('game:create')
+  @SubscribeMessage(GatewayEvents.Game.Create)
   public async createGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreateNewGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.createNewGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
 
-    socket.emit('game:update-list', games);
-    socket.broadcast.emit('game:update-list', games);
+    socket.emit(GatewayEvents.Game.UpdateList, games);
+    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
 
     return game;
   }
 
-  @SubscribeMessage('game:join-player')
+  @SubscribeMessage(GatewayEvents.Game.JoinPlayer)
   public async joinPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputJoinPlayerGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.joinPlayerGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
 
-    this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
+    this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, game.players.map(player => player.id));
 
-    socket.emit('game:update-list', games);
-    socket.broadcast.emit('game:update-list', games);
+    socket.emit(GatewayEvents.Game.UpdateList, games);
+    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
 
     return game;
   }
 
-  @SubscribeMessage('game:play')
+  @SubscribeMessage(GatewayEvents.Game.Play)
   public async playGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputPlayGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.playGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
 
-    this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
+    this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, game.players.map(player => player.id));
 
-    socket.emit('game:update-list', games);
-    socket.broadcast.emit('game:update-list', games);
+    socket.emit(GatewayEvents.Game.UpdateList, games);
+    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
 
     return game;
   }
 
-  @SubscribeMessage('game:leave')
+  @SubscribeMessage(GatewayEvents.Game.Leave)
   public async leaveGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputLeaveGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.leaveGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
@@ -119,52 +120,52 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
       .map(player => player.id)
       .filter(id => id !== input.executorId);
 
-    this.socketPlayerManager.sendMessageToPlayers('game:play', game, playerIdsExceptExecutor);
+    this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, playerIdsExceptExecutor);
 
-    socket.emit('game:update-list', games);
-    socket.broadcast.emit('game:update-list', games);
+    socket.emit(GatewayEvents.Game.UpdateList, games);
+    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
 
     return game;
   }
 
-  @SubscribeMessage('game:enter-value')
+  @SubscribeMessage(GatewayEvents.Game.EnterValue)
   public async enterValueGame(@ConnectedSocket() socket: Socket, @MessageBody() input: InputEnterValueGameDTO): Promise<OutputGameDTO> {
     const game: OutputGameDTO = await this.enterValueGameService.execute(input);
-    this.socketPlayerManager.sendMessageToPlayers('game:play', game, game.players.map(player => player.id));
+    this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, game.players.map(player => player.id));
 
     if (game.winner) {
       const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
       const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: input.executorId});
 
-      socket.emit('game:update-list', games);
-      socket.broadcast.emit('game:update-list', games);
+      socket.emit(GatewayEvents.Game.UpdateList, games);
+      socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
 
-      socket.emit('player:update-list', players);
-      socket.broadcast.emit('player:update-list', players);
+      socket.emit(GatewayEvents.Player.UpdateList, players);
+      socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
     }
 
     return game;
   }
 
-  @SubscribeMessage('game:list')
+  @SubscribeMessage(GatewayEvents.Game.List)
   public async listGames(client: Socket, @MessageBody() input: InputListGamesDTO): Promise<OutputGameDTO[]> {
     return this.listGamesService.execute(input);
   }
 
-  @SubscribeMessage('player:create')
+  @SubscribeMessage(GatewayEvents.Player.Create)
   public async createPlayer(@ConnectedSocket() socket: Socket, @MessageBody() input: InputCreatePlayerDTO): Promise<OutputPlayerDTO> {
     const player: OutputPlayerDTO = await this.createPlayerService.execute(input);
     const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: player.id});
 
     this.socketPlayerManager.addPlayerSocket(player.id, socket);
 
-    socket.emit('player:update-list', players);
-    socket.broadcast.emit('player:update-list', players);
+    socket.emit(GatewayEvents.Player.UpdateList, players);
+    socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
 
     return player;
   }
 
-  @SubscribeMessage('player:list')
+  @SubscribeMessage(GatewayEvents.Player.List)
   public async listPlayers(@ConnectedSocket() socket: Socket, @MessageBody() input: InputListPlayersDTO): Promise<OutputPlayerDTO[]> {
     return this.listPlayersService.execute(input);
   }

@@ -9,8 +9,8 @@ A Concurrent Sudoku
     * Install libs - `npm install`
     * Build app - `npm run build`
 2. **Lint**
-    * `npm run lint`
-    * `npm run lint:fix`
+    * Run lint - `npm run lint`
+    * Fix lint errors - `npm run lint:fix`
 3. **Libs**
     * Show new versions - `npm run lib:check`
     * Upgrade libs' versions - `npm run lib:upgrade`

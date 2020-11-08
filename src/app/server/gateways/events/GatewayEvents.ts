@@ -26,7 +26,7 @@ export class GatewayEvents {
 
   static Errors: {
     IncorrectValue: string,
-    Common: string,
+    Common        : string,
   } = {
     IncorrectValue: 'errors:incorrect-value',
     Common        : 'errors:common'

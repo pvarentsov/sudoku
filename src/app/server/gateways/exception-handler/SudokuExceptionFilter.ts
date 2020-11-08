@@ -14,7 +14,7 @@ export class SudokuExceptionFilter extends BaseWsExceptionFilter {
       client.emit(GatewayEvents.Errors.IncorrectValue, exception);
     }
     else if (exception instanceof HttpException) {
-      const response: string|Record<string, any> = exception.getResponse() as string|Record<string, unknown>;
+      const response: string|Record<string, any> = exception.getResponse() as string|Record<string, any>;
 
       const message: string = typeof response === 'string'
         ? response

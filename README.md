@@ -5,7 +5,6 @@ A Concurrent Sudoku
 ![](asset/sudoku.png)
 
 ## How to
-
 1. **Build**
     * Install libs - `npm install`
     * Build app - `npm run build`
@@ -15,7 +14,14 @@ A Concurrent Sudoku
 3. **Play**  
     * Browse `localhost:[app port]`
     * Chrome is preferred
-4. [**Screecast**](asset/how-to-screencast.gif)
+
+<details>
+  <summary>
+    Screencast
+  </summary>
+    <br>
+    <img src="./asset/how-to-screencast.gif">
+</details>
 
 ## Ngrok
 
@@ -23,5 +29,12 @@ A Concurrent Sudoku
 
 1. Start app - `npm run start`
 2. Expose server - `./ngrok http [app port]`
-2. Browse generated public url
-3. [**Screecast**](asset/ngrok-screencast.gif)
+3. Browse generated public url
+
+<details>
+  <summary>
+    Screencast
+  </summary>
+    <br>
+    <img src="./asset/ngrok-screencast.gif">
+</details>

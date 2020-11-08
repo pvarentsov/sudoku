@@ -243,14 +243,14 @@
   }
 
   function onServerUpdatePlayerList() {
-    player.socket.on("player:update-list", (players) => {
+    player.socket.on("player:list", (players) => {
       gameState.players = players;
       renderPlayerList();
     });
   }
 
   function onServerUpdateGameList() {
-    player.socket.on("game:update-list", (games) => {
+    player.socket.on("game:list", (games) => {
       gameState.games = games;
       renderGameList();
     });

@@ -69,8 +69,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
       const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: playerId});
       const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: playerId});
 
-      socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
-      socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
+      socket.broadcast.emit(GatewayEvents.Game.List, games);
+      socket.broadcast.emit(GatewayEvents.Player.List, players);
     }
   }
   
@@ -79,8 +79,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
     const game: OutputGameDTO = await this.createNewGameService.execute(input);
     const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
 
-    socket.emit(GatewayEvents.Game.UpdateList, games);
-    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+    socket.emit(GatewayEvents.Game.List, games);
+    socket.broadcast.emit(GatewayEvents.Game.List, games);
 
     return game;
   }
@@ -92,8 +92,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
 
     this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, game.players.map(player => player.id));
 
-    socket.emit(GatewayEvents.Game.UpdateList, games);
-    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+    socket.emit(GatewayEvents.Game.List, games);
+    socket.broadcast.emit(GatewayEvents.Game.List, games);
 
     return game;
   }
@@ -105,8 +105,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
 
     this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, game.players.map(player => player.id));
 
-    socket.emit(GatewayEvents.Game.UpdateList, games);
-    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+    socket.emit(GatewayEvents.Game.List, games);
+    socket.broadcast.emit(GatewayEvents.Game.List, games);
 
     return game;
   }
@@ -122,8 +122,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
 
     this.socketPlayerManager.sendMessageToPlayers(GatewayEvents.Game.Play, game, playerIdsExceptExecutor);
 
-    socket.emit(GatewayEvents.Game.UpdateList, games);
-    socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+    socket.emit(GatewayEvents.Game.List, games);
+    socket.broadcast.emit(GatewayEvents.Game.List, games);
 
     return game;
   }
@@ -137,11 +137,11 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
       const games: OutputGameDTO[] = await this.listGamesService.execute({executorId: input.executorId});
       const players: OutputPlayerDTO[] = await this.listPlayersService.execute({executorId: input.executorId});
 
-      socket.emit(GatewayEvents.Game.UpdateList, games);
-      socket.broadcast.emit(GatewayEvents.Game.UpdateList, games);
+      socket.emit(GatewayEvents.Game.List, games);
+      socket.broadcast.emit(GatewayEvents.Game.List, games);
 
-      socket.emit(GatewayEvents.Player.UpdateList, players);
-      socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
+      socket.emit(GatewayEvents.Player.List, players);
+      socket.broadcast.emit(GatewayEvents.Player.List, players);
     }
 
     return game;
@@ -159,8 +159,8 @@ export class SudokuEventGateway implements OnGatewayDisconnect {
 
     this.socketPlayerManager.addPlayerSocket(player.id, socket);
 
-    socket.emit(GatewayEvents.Player.UpdateList, players);
-    socket.broadcast.emit(GatewayEvents.Player.UpdateList, players);
+    socket.emit(GatewayEvents.Player.List, players);
+    socket.broadcast.emit(GatewayEvents.Player.List, players);
 
     return player;
   }

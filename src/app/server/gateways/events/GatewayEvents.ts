@@ -2,7 +2,6 @@ export class GatewayEvents {
 
   static Game: {
     Create    : string,
-    UpdateList: string,
     List      : string,
     Play      : string,
     JoinPlayer: string,
@@ -10,7 +9,6 @@ export class GatewayEvents {
     EnterValue: string,
   } = {
     Create    : 'game:create',
-    UpdateList: 'game:update-list',
     List      : 'game:list',
     Play      : 'game:play',
     JoinPlayer: 'game:join-player',
@@ -20,12 +18,18 @@ export class GatewayEvents {
 
   static Player: {
     Create    : string,
-    UpdateList: string,
     List      : string,
   } = {
     Create    : 'player:create',
-    UpdateList: 'player:update-list',
     List      : 'player:list',
+  };
+
+  static Errors: {
+    IncorrectValue: string,
+    Common: string,
+  } = {
+    IncorrectValue: 'errors:incorrect-value',
+    Common        : 'errors:common'
   };
 
 }

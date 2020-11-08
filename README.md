@@ -1,5 +1,13 @@
 # Sudoku
 
+<details>
+  <summary>
+    Screencast
+  </summary>
+    <br>
+    <img src="./asset/screencast.gif">
+</details>
+
 #### Development
 
 1. **Build**

@@ -412,6 +412,7 @@
           tdElement.onmouseleave = () => {
             if (tdElement.contentEditable === "true" && tdElement.innerHTML === "") {
               tdElement.innerHTML = "-";
+              tdElement.blur();
             }
           }
 

@@ -4,7 +4,7 @@ A Concurrent Sudoku
 
 ![](asset/sudoku.png)
 
-#### How to
+## How to
 
 1. **Build**
     * Install libs - `npm install`
@@ -17,9 +17,9 @@ A Concurrent Sudoku
     * Chrome is preferred
 4. [**Screecast**](asset/how-to-screencast.gif)
 
-#### [Ngrok](https://ngrok.com/)
+## Ngrok
 
-Ngrok is an easy way to expose local sudoku server to the public internet:
+[Ngrok](https://ngrok.com/) is an easy way to expose local sudoku server to the public internet:
 
 1. Start app - `npm run start`
 2. Expose server - `./ngrok http [app port]`

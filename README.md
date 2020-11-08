@@ -2,7 +2,7 @@
 
 <details>
   <summary>
-    Screencast
+    [Screencast](asset/screencast.gif)
   </summary>
     <br>
     <img src="./asset/screencast.gif">

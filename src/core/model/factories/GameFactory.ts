@@ -1,4 +1,4 @@
-import { ArrayUtil } from '@sudoku/core/common';
+import { ArrayUtil, Config } from '@sudoku/core/common';
 import { Cell, Coordinate, Game } from '@sudoku/core/model';
 
 export class GameFactory {
@@ -34,7 +34,7 @@ export class GameFactory {
 
   private static randomClearGrid(grid: Cell[][]): void {
     for (const row of grid) {
-      const clearColumnNumber: number = 3;
+      const clearColumnNumber: number = Config.GAME_EMPTY_CELLS_PER_ROW;
 
       const clearColumnIndexes: number[] = ArrayUtil
         .generateSequence(0, 9, {shuffle: true})

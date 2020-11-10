@@ -1,6 +1,6 @@
 # Sudoku
 
-A Concurrent Sudoku
+A Concurrent Sudoku. The winner is the player who fills the last cell correctly.
 
 ![](asset/sudoku.png)
 

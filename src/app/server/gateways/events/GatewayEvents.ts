@@ -1,6 +1,6 @@
 export class GatewayEvents {
 
-  static Game: {
+  static readonly Game: {
     Create    : string,
     List      : string,
     Play      : string,
@@ -16,7 +16,7 @@ export class GatewayEvents {
     EnterValue: 'game:enter-value',
   };
 
-  static Player: {
+  static readonly Player: {
     Create    : string,
     List      : string,
   } = {
@@ -24,7 +24,7 @@ export class GatewayEvents {
     List      : 'player:list',
   };
 
-  static Errors: {
+  static readonly Error: {
     IncorrectValue: string,
     Common        : string,
   } = {

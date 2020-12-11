@@ -11,7 +11,7 @@ export class SudokuExceptionFilter extends BaseWsExceptionFilter {
     const client: Socket = host.switchToWs().getClient();
 
     if (exception instanceof CellValueError) {
-      client.emit(GatewayEvents.Errors.IncorrectValue, exception);
+      client.emit(GatewayEvents.Error.IncorrectValue, exception);
     }
     else if (exception instanceof HttpException) {
       const response: string|Record<string, any> = exception.getResponse() as string|Record<string, any>;
@@ -20,10 +20,10 @@ export class SudokuExceptionFilter extends BaseWsExceptionFilter {
         ? response
         : response.message || 'Internal Error';
 
-      client.emit(GatewayEvents.Errors.Common, new CoreError(message));
+      client.emit(GatewayEvents.Error.Common, new CoreError(message));
     }
     else {
-      client.emit(GatewayEvents.Errors.Common, exception);
+      client.emit(GatewayEvents.Error.Common, exception);
     }
 
     Logger.error(exception.message, exception.stack, SudokuExceptionFilter.name);

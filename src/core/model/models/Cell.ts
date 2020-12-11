@@ -4,9 +4,9 @@ import { Coordinate, Player } from '@sudoku/core/model';
 export class Cell {
 
   private readonly _rightValue: number;
+  private readonly _coordinate: Coordinate;
   private _enteredValue: Nullable<number>;
   private _enteredBy: Nullable<Player>;
-  private _coordinate: Coordinate;
 
   constructor(rightValue: number, enteredValue: Nullable<number>, coordinate: Coordinate, enteredBy?: Player) {
     this._rightValue   = rightValue;

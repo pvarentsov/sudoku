@@ -10,10 +10,10 @@ export class Game {
   private _status: GameStatus;
 
   constructor(grid: Cell[][]) {
-    this._id     = v4();
-    this._grid   = grid;
+    this._id      = v4();
+    this._grid    = grid;
     this._players = [];
-    this._status = GameStatus.Waiting;
+    this._status  = GameStatus.Waiting;
   }
 
   public get id(): string {

@@ -17,11 +17,11 @@ export class GatewayEvents {
   };
 
   static readonly Player: {
-    Create    : string,
-    List      : string,
+    Create: string,
+    List  : string,
   } = {
-    Create    : 'player:create',
-    List      : 'player:list',
+    Create: 'player:create',
+    List  : 'player:list',
   };
 
   static readonly Error: {

@@ -4,7 +4,7 @@ A Concurrent Sudoku. The winner is the player who fills the last cell correctly.
 
 ![](asset/sudoku.png)
 
-## How to
+## How-to
 1. **Build**
     * Install libs - `npm install`
     * Build app - `npm run build`

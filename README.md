@@ -19,14 +19,14 @@ Multiplayer concurrent sudoku. The winner is the player who fills the last cell 
    # Run linter
    $ npm run lint
    
-   # Fix linter and fix errors
+   # Run linter and fix errors
    $ npm run lint:fix
 3. **Libs**
    ```shell
    # Show new versions
    $ npm run lib:check
    
-   # Upgrade versions
+   # Upgrade libs
    $ npm run lib:upgrade
    ```
 4. **Run**

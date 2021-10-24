@@ -13,7 +13,7 @@
       "@sudoku/app/*": ["src/app/*"],
       "@sudoku/app": ["src/app"]
     },
-    "target": "ES2020",
+    "target": "ES2016",
     "module": "commonjs",
     "lib": [
       "ES2020",

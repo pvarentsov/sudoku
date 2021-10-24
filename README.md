@@ -54,7 +54,7 @@ Multiplayer concurrent sudoku. The winner is the player who fills the last cell 
 
 1. **Start** app
    ```shell
-   $ `npm run start`
+   $ npm run start
    ```
 2. **Expose** server
    ```shell
